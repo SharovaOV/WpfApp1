@@ -1,0 +1,110 @@
+﻿<Window x:Class="WpfApp1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:fa="http://schemas.fontawesome.com/icons/"
+        xmlns:local="clr-namespace:WpfApp1" 
+        xmlns:vw="clr-namespace:WpfApp1.ViewModels"
+        mc:Ignorable="d"
+        Title="{Binding Title}" 
+        Height="450" Width="800">
+    <Window.DataContext>
+        <vw:MainWindowViewModel></vw:MainWindowViewModel>
+
+    </Window.DataContext>
+    <!--<Window.Resources>
+        <CommandBinding Command="{Binding DeleteTestCommand}" x:Key="DeleteTestCommand"/>
+    </Window.Resources>-->
+    <Grid>
+
+
+        <DockPanel>
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="Файл">
+                    <MenuItem Header="Загрузить базу тестов"></MenuItem>
+                    <MenuItem Header="Создать базу тестов"></MenuItem>
+                </MenuItem>
+                <MenuItem Header="Добавить тест"></MenuItem>
+                <MenuItem Header="Пройти Тест" Command="{Binding CloseApplicationCommand}"></MenuItem>
+            </Menu>
+            <StatusBar DockPanel.Dock="Bottom">
+                <TextBlock Text="Загружено тестов:"></TextBlock>
+                <TextBlock Text="{Binding TestInfo.Count}"></TextBlock>
+            </StatusBar>
+            <TabControl>
+                <!--<TabControl.ItemContainerStyle>
+                    <Style TargetType="{x:Type TabItem}">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                    </Style>
+                </TabControl.ItemContainerStyle>-->
+                <TabItem Header="tests">
+                    <Grid>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <GroupBox Grid.Column="0" Header="Список тестов" >
+
+                            <DataGrid HeadersVisibility="Column" 
+                                      ItemsSource="{Binding TestInfo}" 
+                                      AutoGenerateColumns="False" 
+                                      IsReadOnly="True" SelectedItem="{Binding SelectedTest}"
+                                      GridLinesVisibility="Vertical"
+                                      VerticalGridLinesBrush="DarkGray"
+                                      AlternatingRowBackground="#FFD8F2FA"
+                                      Width="Auto">
+
+                                <DataGrid.Columns>
+
+                                    <DataGridTextColumn Header="Название" Binding="{Binding Name}" MinWidth="200" Width="*"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="Количество вопросов" Binding="{Binding CountQuestions}" Width="140"></DataGridTextColumn>
+                                    <DataGridTemplateColumn >
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <fa:ImageAwesome Icon="Solid_Edit" Height="12" Margin="3 0" Foreground="#FF4EC736" Cursor="Hand"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button BorderThickness="0,0,0,0" Background="{x:Null}"  Command="{Binding RelativeSource= {RelativeSource AncestorType={x:Type  GroupBox}},  Path=DataContext.DeleteTestCommand}" CommandParameter="{Binding}">
+                                                    <fa:ImageAwesome Icon="Solid_Times" Height="11" Margin="3 0" Foreground="#FFC75036"  Cursor="Hand" />
+                                                </Button>
+
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            <!--<ListBox ItemsSource="{Binding Tests}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedTest}">
+                            </ListBox>-->
+
+
+                        </GroupBox>
+                    </Grid>
+                </TabItem>
+                <TabItem>
+                    <TabItem.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <fa:ImageAwesome Icon="Regular_AddressBook" Height="10" Margin="3 0"/>
+                            <TextBlock Text="Edit test"/>
+                        </StackPanel>
+                    </TabItem.Header>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="6"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <GridSplitter Grid.Column="1" ResizeDirection="Columns" Background="LightGray" HorizontalAlignment="Center" Width="2"/>
+
+                    </Grid>
+                </TabItem>
+                <TabItem Header="testGO"></TabItem>
+            </TabControl>
+        </DockPanel>
+
+    </Grid>
+</Window>

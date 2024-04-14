@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippet Format="1.0.0" xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <Header>
+    <Title>свойство для wvvw поля цза</Title>
+    <Author>Ольга</Author>
+    <Shortcut>proprg</Shortcut>
+    <Description>Поле свойство с ним связанное и регион</Description>
+    <SnippetTypes>
+      <SnippetType>Expansion</SnippetType>
+    </SnippetTypes>
+  </Header>
+  <Snippet>
+    <Declarations>
+      <Literal>
+        <ID>name</ID>
+        <Default>NameProperty</Default>
+        <ToolTip>Имя свойства</ToolTip>
+      </Literal>
+      <Literal>
+        <ID>description</ID>
+        <Default>DescriptionProperty</Default>
+      </Literal>
+      <Literal>
+        <ID>type</ID>
+        <Default>string</Default>
+      </Literal>
+    </Declarations>
+    <Code Language="CSharp">
+      <![CDATA[#region $name$ : $type$ - $description$
+        private $type$ _$name$;
+        /// <summary>$description$</summary>
+        public $type$ $name$
+        {
+            get => _$name$;
+            set => Set(ref _$name$, value);
+        }
+        #endregion]]>
+    </Code>
+  </Snippet>
+</CodeSnippet>
