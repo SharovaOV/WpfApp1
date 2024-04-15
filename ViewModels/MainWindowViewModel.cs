@@ -64,6 +64,16 @@ namespace WpfApp1.ViewModels
         }
         #endregion
 
+        #region CurrentView : ViewModelBase - Текущая страница
+        private ViewModelBase _CurrentView;
+        /// <summary>Текущая страница</summary>
+        public ViewModelBase CurrentView
+        {
+            get => _CurrentView;
+            set => Set(ref _CurrentView, value);
+        }
+        #endregion
+
         #region Комманды
 
         #region CloseApplicationCommand
@@ -116,6 +126,8 @@ namespace WpfApp1.ViewModels
             #endregion
 
             TestInfo = new ObservableCollection<Test>(JSON.LoadTestInfoList());
+
+            CurrentView = new HomeViewModel();
 
         }
 

@@ -18,7 +18,7 @@ namespace WpfApp1.Views.Pages
     /// <summary>
     /// Логика взаимодействия для Home.xaml
     /// </summary>
-    public partial class Home : Page
+    public partial class Home : UserControl
     {
         public Home()
         {
