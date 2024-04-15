@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WpfApp1.Infrastucture
+namespace WpfApp1.Services
 {
-    class WindowUserDialogService : Base.IUserDialogService
+    class WindowUserDialogService : IUserDialogService
     {
         public bool Confirm(string Message, string Caption, bool Exclamation = false)
         {

@@ -4,15 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:fa="http://schemas.fontawesome.com/icons/"
+        DataContext="{Binding MainWindowModel, Source={StaticResource Locator}}"
         xmlns:local="clr-namespace:WpfApp1" 
         xmlns:vw="clr-namespace:WpfApp1.ViewModels"
         mc:Ignorable="d"
         Title="{Binding Title}" 
         Height="450" Width="800">
-    <Window.DataContext>
-        <vw:MainWindowViewModel></vw:MainWindowViewModel>
-
-    </Window.DataContext>
+   
     <!--<Window.Resources>
         <CommandBinding Command="{Binding DeleteTestCommand}" x:Key="DeleteTestCommand"/>
     </Window.Resources>-->

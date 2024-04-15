@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WpfApp1.Infrastucture.Base
+namespace WpfApp1.Services
 {
     interface IUserDialogService
     {
