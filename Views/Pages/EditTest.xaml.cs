@@ -12,17 +12,18 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfApp1.ViewModels;
 
-namespace WpfApp1
+namespace WpfApp1.Views.Pages
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Логика взаимодействия для EditTest.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class EditTest : UserControl
     {
-        public MainWindow()
+        public EditTest()
         {
             InitializeComponent();
-        }       
+        }
     }
 }

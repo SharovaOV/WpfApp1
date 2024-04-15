@@ -96,22 +96,21 @@ namespace WpfApp1.ViewModels
         {
             if (!(t is Test test)) return;
             TestInfo = new ObservableCollection<Test>(JSON.DeleteTest(test));
-            //TestInfo.Remove(test);
+            //Questions.Remove(test);
             //JSON.UpdateJson(test);
         }
         #endregion
 
         #region CreateTestCommand
         /// <summary> Событие добавить тест </summary>
-        private ICommand CreateTestCommand { get; }
+        public ICommand CreateTestCommand { get; }
         private bool CanCreateTestCommandExecuted(object t) => TestInfo != null;
         private void OnCreateTestCommandExecuted(object t)
         {
-            TestInfo = new ObservableCollection<Test>(JSON.AddTest());
+            //Questions = new ObservableCollection<Test>(JSON.AddTest());
+             CurrentView = new EditTestViewModel();
         }
         #endregion
-
-
 
         #endregion
 
@@ -123,6 +122,8 @@ namespace WpfApp1.ViewModels
             CloseApplicationCommand = new RelayCommand(OnCloseApplicationCommandExecuted, CanCloseApplicationCommandExecuted);
 
             DeleteTestCommand = new RelayCommand(OnDeleteTestCommandExecuted, CanDeleteTestCommandExecuted);
+
+            CreateTestCommand = new RelayCommand(OnCreateTestCommandExecuted, CanCreateTestCommandExecuted);
             #endregion
 
             TestInfo = new ObservableCollection<Test>(JSON.LoadTestInfoList());

@@ -12,7 +12,7 @@ namespace WpfApp1.ViewModels
 {
     class HomeViewModel:ViewModelBase
     {
-        #region Свойства
+        #region Поля
 
         #region TestInfo : ObservableCollection<Test> - Список доступных тестов
         private ObservableCollection<Test> _TestInfo;
@@ -24,15 +24,43 @@ namespace WpfApp1.ViewModels
         }
         #endregion
 
+        #region SelectedTest : Test - Выделенный тест
+        private Test _SelectedTest;
+        /// <summary>Выделенный тест</summary>
+        public Test SelectedTest
+        {
+            get => _SelectedTest;
+            set => Set(ref _SelectedTest, value);
+        }
+        #endregion
+
         #endregion
 
 
         #region Команды
+        #region DeleteTestCommand
+        /// <summary> Событие удалить тест </summary>
+        public ICommand DeleteTestCommand { get; }
+
+        private bool CanDeleteTestCommandExecuted(object t) => t is Test test && TestInfo.Contains(test);
+        private void OnDeleteTestCommandExecuted(object t)
+        {
+            if (!(t is Test test)) return;
+            TestInfo = new ObservableCollection<Test>(JSON.DeleteTest(test));
+            //Questions.Remove(test);
+            //JSON.UpdateJson(test);
+        }
+        #endregion
 
         #endregion
         public HomeViewModel()
         {
+            #region Команды
+            DeleteTestCommand = new RelayCommand(OnDeleteTestCommandExecuted, CanDeleteTestCommandExecuted);
+            #endregion
+
             TestInfo = new(JSON.LoadTestInfoList());
+            SelectedTest = TestInfo.First(); 
         }
     }
 }

@@ -87,6 +87,8 @@ namespace WpfApp1.Services.JSON
 
         }
 
+        
+
         public static IList<Test> AddTest()
         {
             List<Test> tests = new(LoadFullTestList());

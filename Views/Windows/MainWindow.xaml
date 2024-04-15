@@ -25,7 +25,7 @@
                     <MenuItem Header="Загрузить базу тестов"></MenuItem>
                     <MenuItem Header="Создать базу тестов"></MenuItem>
                 </MenuItem>
-                <MenuItem Header="Добавить тест"></MenuItem>
+                <MenuItem Header="Добавить тест" Command="{Binding CreateTestCommand}"></MenuItem>
                 <MenuItem Header="Пройти Тест" Command="{Binding CloseApplicationCommand}"></MenuItem>
             </Menu>
             <StatusBar DockPanel.Dock="Bottom">
