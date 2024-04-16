@@ -10,6 +10,7 @@ using WpfApp1.Models;
 using System.Collections.ObjectModel;
 using WpfApp1.Resources;
 using WpfApp1.Services.JSON;
+using WpfApp1.Services;
 
 
 namespace WpfApp1.ViewModels
@@ -23,6 +24,7 @@ namespace WpfApp1.ViewModels
             EditTest,
             DoTest
         }
+        private readonly IUserDialogService _UserDialog;
 
         #region Title : string - Заголовок окна
         private string _Tiile = "Заголовок окна";
@@ -87,37 +89,43 @@ namespace WpfApp1.ViewModels
         }
         #endregion
 
-        #region DeleteTestCommand
-        /// <summary> Событие удалить тест </summary>
-        public ICommand DeleteTestCommand { get; }
-
-        private bool CanDeleteTestCommandExecuted(object t) => t is Test test && TestInfo.Contains(test);
-        private void OnDeleteTestCommandExecuted(object t)
-        {
-            if (!(t is Test test)) return;
-            TestInfo = new ObservableCollection<Test>(JSON.DeleteTest(test));
-            //Questions.Remove(test);
-            //JSON.UpdateJson(test);
-        }
-        #endregion
-
         #region CreateTestCommand
         /// <summary> Событие добавить тест </summary>
         public ICommand CreateTestCommand { get; }
         private bool CanCreateTestCommandExecuted(object t)=>true;
         private void OnCreateTestCommandExecuted(object t)
         {
-            //Questions = new ObservableCollection<Test>(JSON.AddTest());
-             CurrentView = new EditTestViewModel();
+            bool needToAdd =false;
+            if (t is null) 
+            {
+                t = new Test();
+                needToAdd = true;
+            }
+            var test = (Test)t;
+            if (_UserDialog.Edit(test) == false && string.IsNullOrWhiteSpace(test.Name))
+            {
+                _UserDialog.Confirm("Невозможно создать тест без заголовка!", "Создание теста отменено!");
+                return;
+            }
+            else if (string.IsNullOrWhiteSpace(test.Name))
+            {
+                _UserDialog.Confirm("Невозможно задать пустой заголовок!", "Редактирование теста отменено!");
+                return;
+            }
+
+            if(needToAdd)
+                ((HomeViewModel)CurrentView).AddTestCommand.Execute(test);
+             CurrentView = new EditTestViewModel(_UserDialog, test.Id);
         }
         #endregion
 
         #endregion
 
 
-        public MainWindowViewModel()
+        public MainWindowViewModel(IUserDialogService userDialog)
         {
-            JSON.setJsonPath();
+            _UserDialog = userDialog;
+            JSON.SetJsonPath();
             #region Команды
             CloseApplicationCommand = new RelayCommand(OnCloseApplicationCommandExecuted, CanCloseApplicationCommandExecuted);
 
@@ -125,7 +133,7 @@ namespace WpfApp1.ViewModels
 
             CreateTestCommand = new RelayCommand(OnCreateTestCommandExecuted, CanCreateTestCommandExecuted);
             #endregion
-            CurrentView = new HomeViewModel();
+            CurrentView = new HomeViewModel(CreateTestCommand, _UserDialog);
 
             //TestInfo = new ObservableCollection<Test>(JSON.LoadTestInfoList());           
 

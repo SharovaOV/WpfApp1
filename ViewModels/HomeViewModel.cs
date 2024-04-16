@@ -8,12 +8,13 @@ using WpfApp1.Models;
 using WpfApp1.Services.JSON;
 using WpfApp1.Infrastucture;
 using System.Windows.Input;
+using WpfApp1.Services;
 namespace WpfApp1.ViewModels
 {
     class HomeViewModel:ViewModelBase
     {
-        #region Поля
-
+        private readonly IUserDialogService _UserDialog;
+        
         #region TestInfo : ObservableCollection<Test> - Список доступных тестов
         private ObservableCollection<Test> _TestInfo;
         /// <summary>Список доступных тестов</summary>
@@ -34,33 +35,51 @@ namespace WpfApp1.ViewModels
         }
         #endregion
 
-        #endregion
-
 
         #region Команды
         #region DeleteTestCommand
         /// <summary> Событие удалить тест </summary>
         public ICommand DeleteTestCommand { get; }
 
-        private bool CanDeleteTestCommandExecuted(object t) => t is Test test && TestInfo.Contains(test);
+        private bool CanDeleteTestCommandExecute(object t) => t is Test test && TestInfo.Contains(test);
         private void OnDeleteTestCommandExecuted(object t)
         {
-            if (!(t is Test test)) return;
+            if (t is not Test test) return;
             TestInfo = new ObservableCollection<Test>(JSON.DeleteTest(test));
-            //Questions.Remove(test);
+            //TestInfo.Remove(test);
             //JSON.UpdateJson(test);
         }
         #endregion
-
+        #region EditTestCommand
+        /// <summary> Редактировать тест </summary>
+        public ICommand EditTestCommand { get; set; }
         #endregion
-        public HomeViewModel()
-        {
-            #region Команды
-            DeleteTestCommand = new RelayCommand(OnDeleteTestCommandExecuted, CanDeleteTestCommandExecuted);
-            #endregion
+        #region AddTestCommand
+        /// <summary> Событие удалить тест </summary>
+        public ICommand AddTestCommand { get; }
 
-            TestInfo = new(JSON.LoadTestInfoList());
+        private bool CanAddTestCommandExecute(object t) => t is Test && t != null;
+        private void OnAddTestCommandExecuted(object t)
+        {
+            TestInfo = new(JSON.AddTest((Test)t));
+            //TestInfo.Add((Test)t);
+        }
+        #endregion
+        #endregion
+        public HomeViewModel(ICommand editTestCommand, IUserDialogService userDialog)
+        {
+            _UserDialog = userDialog;
+            EditTestCommand = editTestCommand;
+            #region Команды
+            DeleteTestCommand = new RelayCommand(OnDeleteTestCommandExecuted, CanDeleteTestCommandExecute);
+            AddTestCommand = new RelayCommand(OnAddTestCommandExecuted, CanAddTestCommandExecute);
+            #endregion
+            IList<Test> tests = JSON.LoadTestInfoList();
+            TestInfo = tests==null ? new() : new(JSON.LoadTestInfoList());
+            
             SelectedTest = TestInfo.First(); 
+
+
         }
     }
 }

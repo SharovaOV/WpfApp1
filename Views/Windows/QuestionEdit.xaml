@@ -6,7 +6,7 @@
         xmlns:cmd="clr-namespace:WpfApp1.Infrastucture"
         xmlns:local="clr-namespace:WpfApp1"       
         mc:Ignorable="d"
-        Title="Вопрос" Height="300" Width="500" ResizeMode="NoResize">
+        Title="{Binding Title}" Height="320" Width="500" ResizeMode="NoResize">
     <!--DataContext="{Binding QuestionEditViewModel, Source={StaticResource Locator}}"-->
     <Grid>
         <Grid.ColumnDefinitions>
@@ -14,6 +14,7 @@
         </Grid.ColumnDefinitions>
         
         <StackPanel>
+            <TextBlock Text="Текст вопроса" HorizontalAlignment="Center"/>
             <TextBox Height="90" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Margin="10" Text="{Binding ValueQuest}" ></TextBox>
             <GroupBox Margin="10"  Name="TypeAnswers"  Header="Тип ответов">
                 <ListBox ItemsSource="{Binding TypeAnswers}" BorderBrush="{x:Null}">
@@ -24,7 +25,7 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
             </GroupBox>
-            <UniformGrid Margin="60 5">
+            <UniformGrid Margin="60 5" Rows="1">
                 <Button Content="Сохранитть" Margin="0 0 10 0" IsDefault="True" Padding="5" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" >
                     <Button.Command>
                         <cmd:DialogCloseCommand DialogResult="True"/>

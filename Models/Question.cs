@@ -13,5 +13,9 @@ namespace WpfApp1.Models
         public bool MultyAnswer { get; set; }
         public TypeAnswer TypeAnswer { get; set; } = TypeAnswer.Text;
         public List<Answer> Answers { get; set; }
+        public Question()
+        {
+            Answers = new();
+        }
     }
 }

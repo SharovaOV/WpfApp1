@@ -4,6 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WpfApp1.Models;
+using WpfApp1.Views.Windows;
+using WpfApp1.ViewModels;
+using WpfApp1.Resources;
+using WpfApp1.Views.Pages;
+using WpfApp1.Views.Elements;
 
 namespace WpfApp1.Services
 {
@@ -17,25 +23,82 @@ namespace WpfApp1.Services
                 MessageBoxButton.YesNo,
                 Exclamation ? MessageBoxImage.Exclamation : MessageBoxImage.Question) == MessageBoxResult.Yes;
         }
-
-        public bool Edit(object item)
+        
+        public bool Edit(object item, string title="", int type =-1)
         {
-            throw new NotImplementedException();
+            if (item is null) throw new ArgumentNullException(nameof(item));
+
+            switch(item)
+            {
+                case Question question:
+                    return EditQuestion(question, title);
+                case Test test:
+                    return EditTest(test, title);
+                case Answer answer:
+                    return EditAnswer(answer, title, type);
+                default:
+                    throw new NotSupportedException($"Редактирование объукта типа {item.GetType().Name} не поддерживается.");
+            }
         }
 
-        public void ShowError(string Message, string Caption)
-        {
-            throw new NotImplementedException();
-        }
+        public void ShowError(string Message, string Caption) => MessageBox.Show(Message, Caption, MessageBoxButton.OK, MessageBoxImage.Error);
 
-        public bool ShowInformation(string Information, string Caption)
-        {
-            throw new NotImplementedException();
-        }
+        public bool ShowInformation(string Information, string Caption) => MessageBox.Show(Information, Caption, MessageBoxButton.OK, MessageBoxImage.Information) == MessageBoxResult.OK;
 
-        public void ShowWorning(string Message, string Caption)
+        public void ShowWorning(string Message, string Caption) => MessageBox.Show(Message, Caption, MessageBoxButton.OK, MessageBoxImage.Warning);
+
+        private static bool EditQuestion(Question question, string title ="")
         {
-            
+            var dataContext = new QuestionEditViewModel
+            {
+                ValueQuest = question.Value,
+                AnswerType = question.TypeAnswer,
+                Title = "Окно редактирования вопроса"
+            };
+            var dlg = new QuestionEdit
+            {
+                DataContext = dataContext
+            };
+
+            if (dlg.ShowDialog() == false) return false;
+
+            question.Value = dataContext.ValueQuest;
+            question.TypeAnswer = dataContext.AnswerType;
+            return true;
+        }
+        private static bool EditTest(Test test, string title = "")
+        {
+            var dataContext = new CreateTestViewModel
+            {
+                NameTest = test.Name
+            };
+            var dlg = new CreateTest
+            {
+                DataContext = dataContext
+            };
+
+            if (dlg.ShowDialog() == false) return false;
+
+            test.Name = dataContext.NameTest;
+            return true;
+        }
+        private static bool EditAnswer(Answer answer, string title = "", int type=-1)
+        {
+            var tp = (int)TypeAnswer.Image;
+            var dataContext = new AnswerEditViewModel
+            {
+                ValueAnswer = answer.Value,
+                CurrentView = (type==(int)TypeAnswer.Image) ? new QuestIMG() : new QuestText()
+            };
+            var dlg = new AnswerEdit
+            {
+                DataContext = dataContext
+            };
+
+            if (dlg.ShowDialog() == false) return false;
+
+            answer.Value = dataContext.ValueAnswer;
+            return true;
         }
     }
  

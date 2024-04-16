@@ -16,7 +16,7 @@ namespace WpfApp1.Resources
     {
         Text = 0,
         Image,
-        String
+        Strings
     }
 
     public static class EnumView

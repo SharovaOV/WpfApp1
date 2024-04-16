@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using WpfApp1.Models;
 using WpfApp1.Services.JSON;
+using WpfApp1.Services;
 using WpfApp1.Infrastucture;
 using WpfApp1.Resources;
 using WpfApp1.Views.Windows;
@@ -17,6 +18,7 @@ namespace WpfApp1.ViewModels
     class EditTestViewModel : ViewModelBase
     {
         #region Поля
+        private readonly IUserDialogService _UserDialog;
 
         #region TestInfo : ObservableCollection<Test> - Список доступных тестов
         private ObservableCollection<Question> _Questions;
@@ -46,7 +48,8 @@ namespace WpfApp1.ViewModels
             get => _SelectedQuestion;
             set{ 
                 Set(ref _SelectedQuestion, value);
-                Answers = new(value.Answers);
+                if(_SelectedQuestion != null)
+                    Answers = new(value.Answers); 
             }
         }
         #endregion
@@ -84,7 +87,7 @@ namespace WpfApp1.ViewModels
         private bool CanDeleteQuestionCommandExecute(object t) => t is Question question && Questions.Contains(question);
         private void OnDeleteQuestionCommandExecuted(object t)
         {
-            if (!(t is Question question)) return;
+            if (t is not Question question) return;
             Questions.Remove(question);
         }
         #endregion
@@ -96,7 +99,7 @@ namespace WpfApp1.ViewModels
         private bool CanDeleteAnswerCommandExecute(object t) => t is Answer answer && Answers.Contains(answer);
         private void OnDeleteAnswerCommandExecuted(object t)
         {
-            if (!(t is Answer answer)) return;
+            if (t is not Answer answer) return;
             Answers.Remove(answer);
         }
         #endregion
@@ -107,36 +110,79 @@ namespace WpfApp1.ViewModels
         private static bool CanEdiqQuestionCommandExecute(object p) => p is Question;
         private void OnEdiqQuestionCommandExrcuted(object p)
         {
-            var question = (Question)p;
-            var dlg = new QuestionEdit {
-                Owner = Application.Current.MainWindow,
-                DataContext = new QuestionEditViewModel
+            Question question = (Question)p;
+            TypeAnswer typeanswer = question.TypeAnswer;
+
+            if(_UserDialog.Edit(question))
+            {
+                if(typeanswer != question.TypeAnswer)
                 {
-                    ValueQuest = question.Value,
-                    AnswerType = question.TypeAnswer
-                }};
+                    question.Answers = new();
+                    Answers = new();
+                    SelectedQestion = question;
+                }
+            }
+        }
+        #endregion
+        #region EdiqAnswerCommand
+        private ICommand _EdiqAnswerCommand;
+        public ICommand EdiqAnswerCommand => _EdiqAnswerCommand ??= new LambdaCommand(OnEdiqAnswerCommandExrcuted, CanEdiqAnswerCommandExecute);
+        private static bool CanEdiqAnswerCommandExecute(object p) => p is Answer;
+        private void OnEdiqAnswerCommandExrcuted(object p)
+        {
+            if (_UserDialog.Edit(p, type: (int)SelectedQestion.TypeAnswer))
+            {
 
+                Answers = Answers;
+                SelectedAnswer = (Answer)p;
+            }
+        }
+        #endregion
 
+        #region CreateQuestionCommand
+        public ICommand CreateQuestionCommand { get; }
+        private bool CanCreateQuestionCommandExecute(object p)=>true;
+        private void OnCreateQuestionCommandExrcuted(object p)
+        {
+            Question question = new();
+            
+            if (_UserDialog.Edit(question))
+            {
+                Questions.Add(question);
+                SelectedQestion = question;
+            }
+        }
+        #endregion
+        #region CreateAnswerCommand
+        public ICommand CreateAnswerCommand { get; }
+        private bool CanCreateAnswerCommandExecute(object p) => SelectedQestion is not null;
+        private void OnCreateAnswerCommandExrcuted(object p)
+        {
+            Answer answer = new();
 
-            if (dlg.ShowDialog() == true)
-                MessageBox.Show("Сохранил");
-            else
-                MessageBox.Show("Отменил");
-
+            if (_UserDialog.Edit(answer,type: (int)SelectedQestion.TypeAnswer))
+            {
+                SelectedQestion.Answers.Add(answer);
+                Answers = new(SelectedQestion.Answers);
+                SelectedAnswer = answer;
+            }
         }
         #endregion
         #endregion
-        public EditTestViewModel()
+        public EditTestViewModel(IUserDialogService userDialog, string testId)
         {
+            _UserDialog = userDialog;
             #region Команды
+            CreateQuestionCommand = new RelayCommand(OnCreateQuestionCommandExrcuted, CanCreateQuestionCommandExecute);
+            CreateAnswerCommand = new RelayCommand(OnCreateAnswerCommandExrcuted, CanCreateAnswerCommandExecute);
             DeleteQuestionCommand = new RelayCommand(OnDeleteQuestionCommandExecuted, CanDeleteQuestionCommandExecute);
             DeleteAnswerCommand = new RelayCommand(OnDeleteAnswerCommandExecuted, CanDeleteAnswerCommandExecute);
             #endregion
-
-            Questions = new(JSON.LoadTest("1").Questions);
-            SelectedQestion = Questions.First();
-            Answers = new(SelectedQestion.Answers);
-            SelectedAnswer = Answers.First();
+            Test test = JSON.LoadTest(testId);
+            Questions = (test.CountQuestions == 0)? new(): new(JSON.LoadTest(testId).Questions);
+            SelectedQestion = Questions.Count == 0 ? null : Questions.First();
+            Answers = (SelectedQestion == null)? new() : new(SelectedQestion.Answers);
+            SelectedAnswer = Answers.Count == 0 ? null : Answers.First();
         }
     }
 }

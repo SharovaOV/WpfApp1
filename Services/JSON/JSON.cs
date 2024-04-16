@@ -15,24 +15,24 @@ namespace WpfApp1.Services.JSON
 {
     public static class JSON
     {
-        static JsonSerializerOptions options = new JsonSerializerOptions
-            {
-                Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
-                WriteIndented = true
-            };
+        static JsonSerializerOptions options = new()
+        {
+            Encoder = JavaScriptEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Cyrillic),
+            WriteIndented = true
+        };
 
     static string JsonPath { get; set; }
-        public static void setJsonPath(string jsonPath = "testDB2.json")
+        public static void SetJsonPath(string jsonPath = "testDB2.json")
         {
             JsonPath = jsonPath;
         }
-        public async static void saveDB(List<Test> tests)
+        public static void SaveDB(List<Test> tests)
         {
             string jsonDb = JsonSerializer.Serialize(tests, options);
-            using (StreamWriter writer = new StreamWriter(JsonPath, false))
+            /*using (StreamWriter writer = new StreamWriter(JsonPath, false))
             {
                 await writer.WriteLineAsync(jsonDb);
-            }
+            }*/
             File.WriteAllText(JsonPath, jsonDb, Encoding.UTF8);
         }
 
@@ -81,22 +81,30 @@ namespace WpfApp1.Services.JSON
         {
             List<Test> tests = LoadFullTestList().ToList();
             tests.Remove(tests.Where(x=>x.Id == test.Id).Single());
-            saveDB(tests);
+            SaveDB(tests);
             
             return tests.Short();
 
-        }
+        }       
 
-        
-
-        public static IList<Test> AddTest()
+        public static IList<Test> AddTest(string str)
         {
             List<Test> tests = new(LoadFullTestList());
 
             tests.Add(new Test());
-            tests.Last().Id = "" + (++Test.LastId);
-            tests.Last().Name = $"Тест {Test.LastId}";
-            saveDB(tests);
+
+            tests.Last().Name = string.IsNullOrWhiteSpace(str) ? $"Тест {Test.LastId}" : str;
+            SaveDB(tests);
+
+            return tests.Short();
+        }
+
+        public static IList<Test> AddTest(Test test)
+        {
+            List<Test> tests = new(LoadFullTestList());
+
+            tests.Add(test);
+            SaveDB(tests);
 
             return tests.Short();
         }
