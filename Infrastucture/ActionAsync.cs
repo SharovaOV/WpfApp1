@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace WpfApp1.Infrastructure
+namespace WpfApp1.Infrastucture
 {
     internal delegate Task ActionAsync();
 

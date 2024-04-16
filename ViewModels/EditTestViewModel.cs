@@ -9,6 +9,8 @@ using WpfApp1.Models;
 using WpfApp1.Services.JSON;
 using WpfApp1.Infrastucture;
 using WpfApp1.Resources;
+using WpfApp1.Views.Windows;
+using System.Windows;
 
 namespace WpfApp1.ViewModels
 {
@@ -36,15 +38,15 @@ namespace WpfApp1.ViewModels
         }
         #endregion
 
-        #region SelectedTest : Test - Выделенный тест
-        private Question _SelectedTest;
-        /// <summary>Выделенный тест</summary>
+        #region SelectedQestion : Question - Выделе вопрос
+        private Question _SelectedQuestion;
+        /// <summary>Выделенный вопрос</summary>
         public Question SelectedQestion
         {
-            get => _SelectedTest;
+            get => _SelectedQuestion;
             set{ 
-                Set(ref _SelectedTest, value); 
-
+                Set(ref _SelectedQuestion, value);
+                Answers = new(value.Answers);
             }
         }
         #endregion
@@ -69,15 +71,6 @@ namespace WpfApp1.ViewModels
         }
         #endregion
 
-        #region TypeAnswers : List<EnumLabel>  - Вид ответа
-        private List<EnumLabel> _TypeAnswers;
-        /// <summary>Вид ответа</summary>
-        public List<EnumLabel> TypeAnswers
-        {
-            get => _TypeAnswers;
-            set => Set(ref _TypeAnswers, value);
-        }
-        #endregion
 
         #endregion
 
@@ -88,7 +81,7 @@ namespace WpfApp1.ViewModels
         /// <summary> Событие удалить вопрос </summary>
         public ICommand DeleteQuestionCommand { get; }
 
-        private bool CanDeleteQuestionCommandExecuted(object t) => t is Question question && Questions.Contains(question);
+        private bool CanDeleteQuestionCommandExecute(object t) => t is Question question && Questions.Contains(question);
         private void OnDeleteQuestionCommandExecuted(object t)
         {
             if (!(t is Question question)) return;
@@ -100,7 +93,7 @@ namespace WpfApp1.ViewModels
         /// <summary> Событие удалить вопрос </summary>
         public ICommand DeleteAnswerCommand{ get; }
 
-        private bool CanDeleteAnswerCommandExecuted(object t) => t is Answer answer && Answers.Contains(answer);
+        private bool CanDeleteAnswerCommandExecute(object t) => t is Answer answer && Answers.Contains(answer);
         private void OnDeleteAnswerCommandExecuted(object t)
         {
             if (!(t is Answer answer)) return;
@@ -108,19 +101,42 @@ namespace WpfApp1.ViewModels
         }
         #endregion
 
+        #region EdiqQuestionCommand
+        private ICommand _EdiqQuestionCommand;
+        public ICommand EdiqQuestionCommand => _EdiqQuestionCommand ??= new LambdaCommand(OnEdiqQuestionCommandExrcuted, CanEdiqQuestionCommandExecute);
+        private static bool CanEdiqQuestionCommandExecute(object p) => p is Question;
+        private void OnEdiqQuestionCommandExrcuted(object p)
+        {
+            var question = (Question)p;
+            var dlg = new QuestionEdit {
+                Owner = Application.Current.MainWindow,
+                DataContext = new QuestionEditViewModel
+                {
+                    ValueQuest = question.Value,
+                    AnswerType = question.TypeAnswer
+                }};
+
+
+
+            if (dlg.ShowDialog() == true)
+                MessageBox.Show("Сохранил");
+            else
+                MessageBox.Show("Отменил");
+
+        }
+        #endregion
         #endregion
         public EditTestViewModel()
         {
             #region Команды
-            DeleteQuestionCommand = new RelayCommand(OnDeleteQuestionCommandExecuted, CanDeleteQuestionCommandExecuted);
-            DeleteAnswerCommand = new RelayCommand(OnDeleteAnswerCommandExecuted, CanDeleteAnswerCommandExecuted);
+            DeleteQuestionCommand = new RelayCommand(OnDeleteQuestionCommandExecuted, CanDeleteQuestionCommandExecute);
+            DeleteAnswerCommand = new RelayCommand(OnDeleteAnswerCommandExecuted, CanDeleteAnswerCommandExecute);
             #endregion
 
             Questions = new(JSON.LoadTest("1").Questions);
             SelectedQestion = Questions.First();
             Answers = new(SelectedQestion.Answers);
             SelectedAnswer = Answers.First();
-            TypeAnswers = EnumView.EnumLabels(EnumView.TypeAnswer);
         }
     }
 }

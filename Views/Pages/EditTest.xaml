@@ -4,7 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:fa="http://schemas.fontawesome.com/icons/"
-             xmlns:local="clr-namespace:WpfApp1.Views.Pages"
+             xmlns:cmd="clr-namespace:WpfApp1.Infrastucture"
+             xmlns:local="clr-namespace:WpfApp1"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
@@ -23,7 +24,8 @@
                                     GridLinesVisibility="Vertical"
                                     VerticalGridLinesBrush="DarkGray"
                                     AlternatingRowBackground="#FFD8F2FA"
-                                    Width="Auto" Background="#FF87EDA6">
+                                    Width="Auto" Background="#FF87EDA6"
+                                    ScrollViewer.VerticalScrollBarVisibility="Auto">
 
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Текст вопроса" Binding="{Binding Value}" MinWidth="200" Width="*"></DataGridTextColumn>
@@ -54,22 +56,22 @@
         <GridSplitter Grid.Column="1" ResizeDirection="Columns" Background="LightGray" HorizontalAlignment="Center" Width="2"/>
         
         <StackPanel Grid.Column="2" Orientation="Vertical">
-            <TextBlock Text="{Binding SelectedQestion.Value}"/>
-            <GroupBox  Name="TypeAnswers"  Header="Тип ответов">
-                <ListBox ItemsSource="{Binding TypeAnswers}">
-                    <!--<ListBox.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <WrapPanel HorizontalAlignment="Stretch"/>
-                        </ItemsPanelTemplate>
-                    </ListBox.ItemsPanel>-->
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <RadioButton GroupName="TypeAnswers" Content="{Binding Label}" />
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </GroupBox>
-                <GroupBox Header="Ответы" >
+            <Grid Margin="4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="22"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="{Binding SelectedQestion.Value}"/>
+                <Button Grid.Column="1" Command="{Binding EdiqQuestionCommand}" CommandParameter="{Binding SelectedQestion}">
+                    <!--<Button.Command>
+                        <cmd:ManageQuestCommand/>
+                    </Button.Command>-->
+                    <fa:ImageAwesome Icon="Solid_Edit" Height="18" Margin="2" Foreground="#FF4EC736" Cursor="Hand"/>
+                </Button>
+            </Grid>
+
+
+            <GroupBox Header="Ответы" >
 
                     <DataGrid HeadersVisibility="Column" 
                                     ItemsSource="{Binding Answers}" 

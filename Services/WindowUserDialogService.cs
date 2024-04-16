@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Windows;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,11 @@ namespace WpfApp1.Services
     {
         public bool Confirm(string Message, string Caption, bool Exclamation = false)
         {
-            throw new NotImplementedException();
+          return  MessageBox.Show(
+                Message,
+                Caption,
+                MessageBoxButton.YesNo,
+                Exclamation ? MessageBoxImage.Exclamation : MessageBoxImage.Question) == MessageBoxResult.Yes;
         }
 
         public bool Edit(object item)
@@ -30,7 +35,7 @@ namespace WpfApp1.Services
 
         public void ShowWorning(string Message, string Caption)
         {
-            throw new NotImplementedException();
+            
         }
     }
  

@@ -104,7 +104,7 @@ namespace WpfApp1.ViewModels
         #region CreateTestCommand
         /// <summary> Событие добавить тест </summary>
         public ICommand CreateTestCommand { get; }
-        private bool CanCreateTestCommandExecuted(object t) => TestInfo != null;
+        private bool CanCreateTestCommandExecuted(object t)=>true;
         private void OnCreateTestCommandExecuted(object t)
         {
             //Questions = new ObservableCollection<Test>(JSON.AddTest());
@@ -121,14 +121,13 @@ namespace WpfApp1.ViewModels
             #region Команды
             CloseApplicationCommand = new RelayCommand(OnCloseApplicationCommandExecuted, CanCloseApplicationCommandExecuted);
 
-            DeleteTestCommand = new RelayCommand(OnDeleteTestCommandExecuted, CanDeleteTestCommandExecuted);
+            //DeleteTestCommand = new RelayCommand(OnDeleteTestCommandExecuted, CanDeleteTestCommandExecuted);
 
             CreateTestCommand = new RelayCommand(OnCreateTestCommandExecuted, CanCreateTestCommandExecuted);
             #endregion
-
-            TestInfo = new ObservableCollection<Test>(JSON.LoadTestInfoList());
-
             CurrentView = new HomeViewModel();
+
+            //TestInfo = new ObservableCollection<Test>(JSON.LoadTestInfoList());           
 
         }
 

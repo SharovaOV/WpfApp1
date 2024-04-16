@@ -14,11 +14,18 @@ namespace WpfApp1.Services.JSON
     {
         public static Answer Parser(this Answer answer, JsonElement root)
         {
-            answer.Id = root.GetProperty("Id").GetString();
-            answer.Value = root.GetProperty("Value").GetString();
-            answer.Right = root.GetProperty("Right").GetBoolean();
+            try
+            {
+                answer.Id = root.GetProperty("Id").GetString();
+                answer.Value = root.GetProperty("Value").GetString();
+                answer.Right = root.GetProperty("Right").GetBoolean();
 
-            return answer;
+                return answer;
+            }
+            catch
+            {
+                return answer;
+            }
         }
 
         public static Question Parser(this Question question, JsonElement root)
@@ -30,7 +37,7 @@ namespace WpfApp1.Services.JSON
                 question.Value = root.GetProperty("Value").GetString();
                 question.MultyAnswer = root.GetProperty("MultyAnswer").GetBoolean();
                 question.TypeAnswer = (TypeAnswer)root.GetProperty("TypeAnswer").GetInt32();
-                question.Answers = root.GetProperty("Answers").EnumerateArray().Skip(1).Select(x => (new Answer()).Parser(x)).ToList();
+                question.Answers = root.GetProperty("Answers").EnumerateArray().Select(x => (new Answer()).Parser(x)).ToList();
                 return question;
             }
             catch
@@ -72,9 +79,12 @@ namespace WpfApp1.Services.JSON
             }
         }
 
-        public static  List<Test> Short(this List<Test> tests)
+        public static  IList<Test> Short(this IList<Test> tests)
         {
-            tests.ForEach(x => x.Questions = null);
+            foreach(var t in tests)
+            {
+                t.Questions = null;
+            }
             return tests;
         }
 

@@ -30,37 +30,12 @@
                 <TextBlock Text="Загружено тестов:"></TextBlock>
                 <TextBlock Text="{Binding TestInfo.Count}"></TextBlock>
             </StatusBar>
-            <TabControl>
-                <!--<TabControl.ItemContainerStyle>
-                    <Style TargetType="{x:Type TabItem}">
-                        <Setter Property="Visibility" Value="Collapsed"/>
-                    </Style>
-                </TabControl.ItemContainerStyle>-->
-                <TabItem Header="tests">
+            
                     <Grid>
                             <ContentControl x:Name="Page" Content="{Binding CurrentView}"/>
                       
                     </Grid>
-                </TabItem>
-                <TabItem>
-                    <TabItem.Header>
-                        <StackPanel Orientation="Horizontal">
-                            <fa:ImageAwesome Icon="Regular_AddressBook" Height="10" Margin="3 0"/>
-                            <TextBlock Text="Edit test"/>
-                        </StackPanel>
-                    </TabItem.Header>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="200"/>
-                            <ColumnDefinition Width="6"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <GridSplitter Grid.Column="1" ResizeDirection="Columns" Background="LightGray" HorizontalAlignment="Center" Width="2"/>
-
-                    </Grid>
-                </TabItem>
-                <TabItem Header="testGO"></TabItem>
-            </TabControl>
+                
         </DockPanel>
 
     </Grid>
