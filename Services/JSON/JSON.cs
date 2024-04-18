@@ -25,6 +25,9 @@ namespace WpfApp1.Services.JSON
         public static void SetJsonPath(string jsonPath = "testDB2.json")
         {
             JsonPath = jsonPath;
+            if (!File.Exists(jsonPath))
+                SaveDB(new());
+            
         }
         public static void SaveDB(List<Test> tests)
         {
@@ -45,7 +48,7 @@ namespace WpfApp1.Services.JSON
             return Tests;
         }
         public static IList<Test> LoadTestInfoList()
-        {
+        {            
             IList<Test> Tests;
 
             using (JsonDocument document = JsonDocument.Parse(File.ReadAllText(JsonPath, System.Text.Encoding.UTF8)))

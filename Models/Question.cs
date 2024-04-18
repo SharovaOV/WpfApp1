@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using WpfApp1.Resources;
 using System.Text.Json;
 using System.Linq;
-using WpfApp1.Resources;
+using Params = WpfApp1.Properties.Settings;
+
 
 namespace WpfApp1.Models
 {
@@ -47,9 +48,8 @@ namespace WpfApp1.Models
             TypeAnswer = question.TypeAnswer;
             Answers = question.Answers.Select(x => new UserAnswer(x)).ToList();
             if(TypeAnswer == TypeAnswer.Strings)
-            {
                 AnswerStrings = new(Answers.Select(x => x.Value.ToAnswerString()).ToList());
-            }
+           
         }
     }
 

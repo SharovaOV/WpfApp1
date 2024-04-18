@@ -11,7 +11,9 @@ using System.Collections.ObjectModel;
 using WpfApp1.Resources;
 using WpfApp1.Services.JSON;
 using WpfApp1.Services;
-
+using System.IO;
+using Microsoft.Win32;
+using Params = WpfApp1.Properties.Settings;
 
 namespace WpfApp1.ViewModels
 {
@@ -76,7 +78,7 @@ namespace WpfApp1.ViewModels
         /// <summary>Событие закрытие окна</summary>
         public ICommand CloseApplicationCommand { get;  }
 
-        private bool CanCloseApplicationCommandExecuted(object p) => true;
+        private bool CanCloseApplicationCommandExecute(object p) => true;
         private void OnCloseApplicationCommandExecuted(object p)
         {
             Application.Current.Shutdown();
@@ -86,7 +88,7 @@ namespace WpfApp1.ViewModels
         #region CreateTestCommand
         /// <summary> Событие добавить тест </summary>
         public ICommand CreateTestCommand { get; }
-        private bool CanCreateTestCommandExecuted(object t) => CurrentView is not SolutionTestViewModel;
+        private bool CanCreateTestCommandExecute(object t) => CurrentView is HomeViewModel;
         private void OnCreateTestCommandExecuted(object t)
         {
             bool needToAdd =false;
@@ -107,8 +109,13 @@ namespace WpfApp1.ViewModels
                 return;
             }
 
-            if(needToAdd)
+            if (needToAdd)
                 ((HomeViewModel)CurrentView).AddTestCommand.Execute(test);
+            else
+            {
+                test.Questions = JSON.LoadTest(test.Id).Questions;
+                JSON.UpdateTest(test);
+            }
              CurrentView = new EditTestViewModel(_UserDialog, test.Id);
         }
         #endregion
@@ -116,8 +123,8 @@ namespace WpfApp1.ViewModels
         #region StartSolutionCommand
         /// <summary> Событие пройти тест </summary>
         public ICommand StartSolutionCommand { get; }
-        private bool CanStartSolutionCommandExecute(object t) => CurrentView is HomeViewModel;
-        private void OnStartSolutionCommandExecuted(object t)
+        private bool CanStartSolutionCommandExecute(object t) => CurrentView is HomeViewModel home && home.SelectedTest != null;
+        private void OnStartSolutionCommandExecute(object t)
         {
             CurrentView = new SolutionTestViewModel(((HomeViewModel)CurrentView).SelectedTest.Id, _UserDialog);
         }
@@ -131,24 +138,70 @@ namespace WpfApp1.ViewModels
         {
             if(CurrentView is SolutionTestViewModel)
             {
-                if(_UserDialog.Confirm("Это Действие приведет к потере прогресса!\n Вы действительно хотите прервать выполнение теста? ", "Экстренный выход из теста!", true) == false)
+                if(t is UserTest)
+                {
+                    ((SolutionTestViewModel)CurrentView).GetResultCommand.Execute(t);
+                }
+                else if(_UserDialog.Confirm("Это Действие приведет к потере прогресса!\n Вы действительно хотите прервать выполнение теста? ", "Экстренный выход из теста!", true) == false)
                     return;
             }
             CurrentView = new HomeViewModel(CreateTestCommand, _UserDialog);
         }
         #endregion
+        #region LoadBaseCommand
+        /// <summary> Событие загрузить базу</summary>
+        public ICommand LoadBaseCommand { get; }
+        private bool CanLoadBaseCommandExecute(object t) => CurrentView is HomeViewModel;
+        private void OnLoadBaseCommandExecuted(object t)
+        {
+            var FDialog = new OpenFileDialog();
+            FDialog.Filter = "JSON Files | *.json";
+
+            if (FDialog.ShowDialog() == true && !string.IsNullOrWhiteSpace(FDialog.FileName))
+            {
+                Params.Default.SetBasePath = FDialog.FileName.ToBaseDirectory();
+                Params.Default.Save();
+                JSON.SetJsonPath(Params.Default.SetBasePath);
+                CurrentView = new HomeViewModel(CreateTestCommand, _UserDialog);
+            }
+        }
+        # endregion
+
+        #region CreateBaseCommand
+        /// <summary> Событие загрузить базу</summary>
+        public ICommand CreateBaseCommand { get; }
+        private bool CanCreateBaseCommandExecute(object t) => CurrentView is HomeViewModel;
+        private void OnCreateBaseCommandExecuted(object t)
+        {
+            var FDialog = new SaveFileDialog();
+            FDialog.Filter = "JSON Files | *.json";
+
+            if (FDialog.ShowDialog() == true && !string.IsNullOrWhiteSpace(FDialog.FileName))
+            {
+                Params.Default.SetBasePath = FDialog.FileName.ToBaseDirectory();
+                Params.Default.Save();
+                JSON.SetJsonPath(Params.Default.SetBasePath);
+                JSON.SaveDB(new());
+                CurrentView = new HomeViewModel(CreateTestCommand, _UserDialog);
+            }
+        }
+        # endregion
+
+
         #endregion
 
 
         public MainWindowViewModel(IUserDialogService userDialog)
         {
             _UserDialog = userDialog;
-            JSON.SetJsonPath();
+            JSON.SetJsonPath(Params.Default.SetBasePath);
             #region Команды
-            CloseApplicationCommand = new RelayCommand(OnCloseApplicationCommandExecuted, CanCloseApplicationCommandExecuted);
-            CreateTestCommand = new RelayCommand(OnCreateTestCommandExecuted, CanCreateTestCommandExecuted);
-            StartSolutionCommand = new RelayCommand(OnStartSolutionCommandExecuted, CanStartSolutionCommandExecute);
+            CloseApplicationCommand = new RelayCommand(OnCloseApplicationCommandExecuted, CanCloseApplicationCommandExecute);
+            CreateTestCommand = new RelayCommand(OnCreateTestCommandExecuted, CanCreateTestCommandExecute);
+            StartSolutionCommand = new RelayCommand(OnStartSolutionCommandExecute, CanStartSolutionCommandExecute);
             GoHomeCommand = new RelayCommand(OnGoHomeCommandExecuted, CanGoHomeCommandExecute);
+            LoadBaseCommand = new RelayCommand(OnLoadBaseCommandExecuted, CanLoadBaseCommandExecute);
+            CreateBaseCommand = new RelayCommand(OnCreateBaseCommandExecuted, CanCreateBaseCommandExecute);
             #endregion
             CurrentView = new HomeViewModel(CreateTestCommand, _UserDialog);
         }

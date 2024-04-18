@@ -15,7 +15,7 @@
         
         <StackPanel>
             <TextBlock Text="Текст вопроса" HorizontalAlignment="Center"/>
-            <TextBox Height="90" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Margin="10" Text="{Binding ValueQuest}" ></TextBox>
+            <TextBox Height="90" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Margin="10" Text="{Binding ValueQuest}" TextWrapping="WrapWithOverflow"></TextBox>
             <GroupBox Margin="10"  Name="TypeAnswers"  Header="Тип ответов">
                 <ListBox ItemsSource="{Binding TypeAnswers}" BorderBrush="{x:Null}">
                     <ListBox.ItemTemplate>

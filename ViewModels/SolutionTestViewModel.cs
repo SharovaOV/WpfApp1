@@ -136,8 +136,7 @@ namespace WpfApp1.ViewModels
             SetAnswers(CurrentQuest.Index - 1);
             _UserDialog.ShowInformation(
                 $"Ваш результат {TestSolution.RightCount} из {TestSolution.Questions.Count}",
-                 "Результат тестирования");
-                
+                 "Результат тестирования");                
         }
         #endregion
         #endregion

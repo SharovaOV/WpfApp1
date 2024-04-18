@@ -1,14 +1,18 @@
 ﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 using System.Linq;
 
 namespace WpfApp1.Models
 {
     public class Test
     {
+        [JsonIgnore]
         static int _LastId = 0;
+        [JsonIgnore]
         public static int LastId { get => _LastId; set => _LastId = value; } 
         public string Id { get; set; }
         public string Name { get; set; }
+        [JsonIgnore]
         public int CountQuestions { get; set; }
         public List<Question> Questions { get; set; }
         public Test()

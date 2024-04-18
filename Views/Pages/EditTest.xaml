@@ -60,7 +60,7 @@
                     <RowDefinition Height="22"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <TextBox AcceptsReturn="True" ScrollViewer.VerticalScrollBarVisibility="Auto" IsReadOnly="True"  Grid.Row ="0" Grid.RowSpan="2"  Grid.Column="0" Text="{Binding SelectedQestion.Value}"/>
+                <TextBox  AcceptsReturn="True" ScrollViewer.VerticalScrollBarVisibility="Auto" IsReadOnly="True"  Grid.Row ="0" Grid.RowSpan="2"  Grid.Column="0" Text="{Binding SelectedQestion.Value}" TextWrapping="WrapWithOverflow"/>
                 <Button Grid.Row="0" Grid.Column="1" Command="{Binding EdiqQuestionCommand}" CommandParameter="{Binding SelectedQestion}">
                     <fa:ImageAwesome Icon="Solid_Edit" Height="18" Margin="2" Foreground="DarkGreen" Cursor="Hand"/>
                 </Button>

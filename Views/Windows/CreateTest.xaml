@@ -11,7 +11,7 @@
         <DockPanel>
             <StackPanel DockPanel.Dock="Top">
                 <TextBlock Text="Название теста" HorizontalAlignment="Center"/>
-                <TextBox Height="90" AcceptsReturn="True"  VerticalScrollBarVisibility="Auto" Margin="10" Text="{Binding NameTest}"/>
+                <TextBox Height="90" AcceptsReturn="True"  VerticalScrollBarVisibility="Auto" Margin="10" Text="{Binding NameTest}" TextWrapping="WrapWithOverflow"/>
             </StackPanel>
             <UniformGrid DockPanel.Dock="Bottom" Rows="1">
                 <UniformGrid Margin="80 5">

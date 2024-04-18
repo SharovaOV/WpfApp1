@@ -23,14 +23,14 @@
                     <DataGridTemplateColumn Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Image Width="70" Height="70" Source="{Binding Value}"/>
+                                <Image Width="70" Height="70" Source="{Binding FullPath}"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                     <DataGridTemplateColumn >
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <CheckBox VerticalAlignment="Center" IsChecked="{Binding Right}"/>
+                                <CheckBox VerticalAlignment="Center" IsChecked="{Binding Right}"  Command="{Binding RelativeSource= {RelativeSource AncestorType={x:Type  GroupBox}},  Path=DataContext.CheckedCommand}" CommandParameter="{Binding Right}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

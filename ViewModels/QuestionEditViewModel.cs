@@ -68,7 +68,6 @@ namespace WpfApp1.ViewModels
         public QuestionEditViewModel()
         {
             SetTypeAnswersCommand = new RelayCommand(OnSetTypeAnswersCommandExecuted, CanSetTypeAnswersCommandExecute);
-            
 
         }
     }

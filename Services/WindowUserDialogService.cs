@@ -10,6 +10,7 @@ using WpfApp1.ViewModels;
 using WpfApp1.Resources;
 using WpfApp1.Views.Pages;
 using WpfApp1.Views.Elements;
+using Params = WpfApp1.Properties.Settings;
 
 namespace WpfApp1.Services
 {
@@ -88,7 +89,7 @@ namespace WpfApp1.Services
         {
             var dataContext = new AnswerEditViewModel
             {
-                ValueAnswer = answer.Value,
+                ValueAnswer = (type == (int)TypeAnswer.Image) ?answer.FullPath : answer.Value,
                 CurrentView = (type==(int)TypeAnswer.Image) ? new QuestIMG() : new QuestText(),
                 Title = string.IsNullOrEmpty(title) ? "Окно редактирования теста" : title,
             };
@@ -98,8 +99,10 @@ namespace WpfApp1.Services
             };
 
             if (dlg.ShowDialog() == false) return false;
-
-            answer.Value = dataContext.ValueAnswer;
+            if(type != (int)TypeAnswer.Image)
+                answer.Value = dataContext.ValueAnswer;
+            else
+                answer.Value = dataContext.ValueAnswer.ToBaseDirectory(Params.Default.ImagePath);
             return true;
         }
     }

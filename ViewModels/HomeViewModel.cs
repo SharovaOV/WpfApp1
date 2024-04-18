@@ -61,8 +61,7 @@ namespace WpfApp1.ViewModels
         private bool CanAddTestCommandExecute(object t) => t is Test && t != null;
         private void OnAddTestCommandExecuted(object t)
         {
-            TestInfo = new(JSON.AddTest((Test)t));
-            //TestInfo.Add((Test)t);
+            TestInfo = new(JSON.AddTest((Test)t));            
         }
         #endregion
         #endregion
@@ -77,9 +76,7 @@ namespace WpfApp1.ViewModels
             IList<Test> tests = JSON.LoadTestInfoList();
             TestInfo = tests==null ? new() : new(JSON.LoadTestInfoList());
             
-            SelectedTest = TestInfo.First(); 
-
-
+            SelectedTest = (TestInfo != null && TestInfo.Count>0)? TestInfo.First(): null; 
         }
     }
 }

@@ -9,7 +9,7 @@
     <Grid>
         <StackPanel Orientation="Vertical">
             <TextBlock Text="Текст ответа"></TextBlock>
-            <TextBox AcceptsReturn="True" VerticalScrollBarVisibility="Auto" MinHeight="80"  MaxHeight="150" Text="{Binding ValueAnswer}"/>
+            <TextBox TextWrapping="WrapWithOverflow" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" MinHeight="80"  MaxHeight="150" Text="{Binding ValueAnswer}"/>
         </StackPanel>            
     </Grid>
 </UserControl>

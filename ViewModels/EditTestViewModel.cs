@@ -53,15 +53,23 @@ namespace WpfApp1.ViewModels
             set{ 
                 Set(ref _SelectedQuestion, value);
                 if (_SelectedQuestion != null)
-                {                    
+                {
                     Answers = new(value.Answers);
-                    CurrentTypeView = _SelectedQuestion.TypeAnswer switch
+                    switch (_SelectedQuestion.TypeAnswer)
                     {
-                        TypeAnswer.Text => new TableAnswersCheckText { DataContext = this },
-                        TypeAnswer.Image => new TableAnswersCheckImg { DataContext = this },
-                        TypeAnswer.Strings => new TableAnswersCheckStrings { DataContext = this },
-                        _ => new TableAnswersCheckText { DataContext = this },
-                    };
+                        case TypeAnswer.Text:
+                            CurrentTypeView = new TableAnswersCheckText { DataContext = this };
+                            break;
+                        case TypeAnswer.Image:
+                            CurrentTypeView = new TableAnswersCheckImg { DataContext = this };
+                            break;
+                        case TypeAnswer.Strings:
+                            CurrentTypeView = new TableAnswersCheckStrings { DataContext = this };
+                            break;
+                        default:
+                            CurrentTypeView = new TableAnswersCheckText { DataContext = this };
+                            break;
+                    }
                 }
             }
         }
@@ -193,7 +201,7 @@ namespace WpfApp1.ViewModels
                 }
                 answer.Right = SelectedQestion.TypeAnswer == TypeAnswer.Strings || Answers.Count == 0;
                     
-                answer.Id = SelectedQestion + "a" + (++LastId);
+                answer.Id = SelectedQestion.Id + "a" + (++LastId);
                 SelectedQestion.Answers.Add(answer);
                 Answers = new(SelectedQestion.Answers);
                 SelectedAnswer = answer;

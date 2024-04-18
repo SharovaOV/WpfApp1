@@ -43,7 +43,7 @@
                 <Button Margin="5 0" ToolTip="Прервать выполнение теста" Command="{Binding RelativeSource= {RelativeSource AncestorType={x:Type  Window}},  Path=DataContext.GoHomeCommand}" >
                     <fa:ImageAwesome Icon="Regular_StopCircle" Width="25" Margin="2" Foreground="DarkRed" Cursor="Hand"/>
                 </Button>
-                <Button Margin="5 0" ToolTip="Завершить тест" Command="{Binding GetResultCommand}" >
+                <Button Margin="5 0" ToolTip="Завершить тест" Command="{Binding RelativeSource= {RelativeSource AncestorType={x:Type  Window}},  Path=DataContext.GoHomeCommand}" CommandParameter="{Binding TestSolution}" >
                     <fa:ImageAwesome Icon="Solid_DoorOpen" Width="25" Margin="2" Foreground="Black" Cursor="Hand"/>
                 </Button>
                 <Button Margin="5 0" ToolTip="Перейти к предедущему вопросу" Command="{Binding PreviewQuestCommand}">

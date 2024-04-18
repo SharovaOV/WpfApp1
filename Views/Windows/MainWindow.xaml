@@ -11,25 +11,22 @@
         Title="{Binding Title}" 
         Height="450" Width="800">
    
-    <!--<Window.Resources>
-        <CommandBinding Command="{Binding DeleteTestCommand}" x:Key="DeleteTestCommand"/>
-    </Window.Resources>-->
+ 
     <Grid>
 
 
         <DockPanel>
             <Menu DockPanel.Dock="Top">
                 <MenuItem Header="Файл">
-                    <MenuItem Header="Загрузить базу тестов"></MenuItem>
-                    <MenuItem Header="Создать базу тестов"></MenuItem>
+                    <MenuItem Header="Загрузить базу тестов" Command="{Binding LoadBaseCommand}"></MenuItem>
+                    <MenuItem Header="Создать базу тестов" Command="{Binding CreateBaseCommand}"></MenuItem>
                 </MenuItem>
                 <MenuItem Header="Главная" Command="{Binding GoHomeCommand}"/>
                 <MenuItem Header="Добавить тест" Command="{Binding CreateTestCommand}"/>
                 <MenuItem Header="Пройти Тест" Command="{Binding StartSolutionCommand}"/>
             </Menu>
             <StatusBar DockPanel.Dock="Bottom">
-                <TextBlock Text="Загружено тестов:"></TextBlock>
-                <TextBlock Text="{Binding TestInfo.Count}"></TextBlock>
+                <TextBlock Text="{Binding footerString}"></TextBlock>
             </StatusBar>            
                     <Grid>
                             <ContentControl x:Name="Page" Content="{Binding CurrentView}"/>                      
