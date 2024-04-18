@@ -1,0 +1,279 @@
+﻿[
+  {
+    "Id": "2",
+    "Name": "Общие вопросы",
+    "Questions": [
+      {
+        "Id": "2.1",
+        "Type": 0,
+        "Value": "1. Орган человека, который участвует в дыхании",
+        "MultyAnswer": false,
+        "TypeAnswer": 2,
+        "Answers": [
+          {
+            "Id": "WpfApp1.Models.Questiona1",
+            "Value": "Легкие",
+            "Right": true
+          }
+        ]
+      },
+      {
+        "Id": "2.2",
+        "Type": 0,
+        "Value": "2 Ботаника наука о",
+        "MultyAnswer": false,
+        "TypeAnswer": 0,
+        "Answers": [
+          {
+            "Id": "WpfApp1.Models.Questiona1",
+            "Value": "растениях",
+            "Right": true
+          },
+          {
+            "Id": "WpfApp1.Models.Questiona2",
+            "Value": "животных",
+            "Right": false
+          },
+          {
+            "Id": "WpfApp1.Models.Questiona3",
+            "Value": "бактериях",
+            "Right": false
+          },
+          {
+            "Id": "WpfApp1.Models.Questiona4",
+            "Value": "жизни",
+            "Right": false
+          }
+        ]
+      },
+      {
+        "Id": "2.3",
+        "Type": 0,
+        "Value": "3. сколько будет 2 :  5",
+        "MultyAnswer": false,
+        "TypeAnswer": 2,
+        "Answers": [
+          {
+            "Id": "WpfApp1.Models.Questiona1",
+            "Value": "0,4",
+            "Right": true
+          },
+          {
+            "Id": "WpfApp1.Models.Questiona2",
+            "Value": "2/5",
+            "Right": true
+          }
+        ]
+      },
+      {
+        "Id": "2.4",
+        "Type": 0,
+        "Value": "4 Сколько видов лишайников известно в мире?",
+        "MultyAnswer": false,
+        "TypeAnswer": 0,
+        "Answers": [
+          {
+            "Id": "WpfApp1.Models.Questiona1",
+            "Value": "10 000",
+            "Right": false
+          },
+          {
+            "Id": "WpfApp1.Models.Questiona2",
+            "Value": "20 000",
+            "Right": true
+          },
+          {
+            "Id": "WpfApp1.Models.Questiona3",
+            "Value": "50 000",
+            "Right": false
+          }
+        ]
+      },
+      {
+        "Id": "2.5",
+        "Type": 0,
+        "Value": "5 В каком слове три слога",
+        "MultyAnswer": false,
+        "TypeAnswer": 1,
+        "Answers": [
+          {
+            "Id": "WpfApp1.Models.Questiona1",
+            "Value": "img\\Вилка.png",
+            "Right": false
+          },
+          {
+            "Id": "WpfApp1.Models.Questiona2",
+            "Value": "img\\Тарелка.png",
+            "Right": true
+          },
+          {
+            "Id": "WpfApp1.Models.Questiona3",
+            "Value": "img\\стакан.png",
+            "Right": false
+          },
+          {
+            "Id": "WpfApp1.Models.Questiona4",
+            "Value": "img\\Чашка.png",
+            "Right": false
+          }
+        ]
+      },
+      {
+        "Id": "2.6",
+        "Type": 0,
+        "Value": "6 Какой любимый предмет одежды у красной шапочки",
+        "MultyAnswer": false,
+        "TypeAnswer": 2,
+        "Answers": [
+          {
+            "Id": "WpfApp1.Models.Questiona1",
+            "Value": "Красная шапочка",
+            "Right": true
+          },
+          {
+            "Id": "WpfApp1.Models.Questiona2",
+            "Value": "Кравсная шапка",
+            "Right": true
+          },
+          {
+            "Id": "WpfApp1.Models.Questiona3",
+            "Value": "Красный чепчик",
+            "Right": true
+          },
+          {
+            "Id": "WpfApp1.Models.Questiona4",
+            "Value": "Красный капюшон",
+            "Right": true
+          },
+          {
+            "Id": "WpfApp1.Models.Questiona5",
+            "Value": "Красный чепец",
+            "Right": true
+          },
+          {
+            "Id": "WpfApp1.Models.Questiona6",
+            "Value": "Шапка",
+            "Right": true
+          },
+          {
+            "Id": "WpfApp1.Models.Questiona7",
+            "Value": "Шапочка",
+            "Right": true
+          },
+          {
+            "Id": "WpfApp1.Models.Questiona8",
+            "Value": "Чепчик",
+            "Right": true
+          },
+          {
+            "Id": "WpfApp1.Models.Questiona9",
+            "Value": "Чепец",
+            "Right": true
+          },
+          {
+            "Id": "WpfApp1.Models.Questiona10",
+            "Value": "Кепка",
+            "Right": true
+          },
+          {
+            "Id": "WpfApp1.Models.Questiona11",
+            "Value": "Кеппи",
+            "Right": true
+          },
+          {
+            "Id": "WpfApp1.Models.Questiona12",
+            "Value": "Капюшон",
+            "Right": true
+          }
+        ]
+      },
+      {
+        "Id": "2.7",
+        "Type": 0,
+        "Value": "7. В каком слове первый звук мягкий",
+        "MultyAnswer": false,
+        "TypeAnswer": 1,
+        "Answers": [
+          {
+            "Id": "WpfApp1.Models.Questiona1",
+            "Value": "img\\Помидор.png",
+            "Right": false
+          },
+          {
+            "Id": "WpfApp1.Models.Questiona2",
+            "Value": "img\\Пылесос.png",
+            "Right": false
+          },
+          {
+            "Id": "WpfApp1.Models.Questiona3",
+            "Value": "img\\Пенал.png",
+            "Right": true
+          },
+          {
+            "Id": "WpfApp1.Models.Questiona4",
+            "Value": "img\\Тарелка.png",
+            "Right": false
+          }
+        ]
+      },
+      {
+        "Id": "2.8",
+        "Type": 0,
+        "Value": "8. Что сказал покойник",
+        "MultyAnswer": false,
+        "TypeAnswer": 2,
+        "Answers": [
+          {
+            "Id": "WpfApp1.Models.Questiona1",
+            "Value": "Ничего",
+            "Right": true
+          },
+          {
+            "Id": "WpfApp1.Models.Questiona2",
+            "Value": "Покойники не говорят",
+            "Right": true
+          },
+          {
+            "Id": "WpfApp1.Models.Questiona3",
+            "Value": "Покойники не разговаривают",
+            "Right": true
+          },
+          {
+            "Id": "WpfApp1.Models.Questiona4",
+            "Value": "ничего не сказал",
+            "Right": true
+          }
+        ]
+      },
+      {
+        "Id": "2.9",
+        "Type": 0,
+        "Value": "9. Аист",
+        "MultyAnswer": false,
+        "TypeAnswer": 1,
+        "Answers": [
+          {
+            "Id": "WpfApp1.Models.Questiona1",
+            "Value": "img\\Павлин.png",
+            "Right": false
+          },
+          {
+            "Id": "WpfApp1.Models.Questiona2",
+            "Value": "img\\Воробей.png",
+            "Right": false
+          },
+          {
+            "Id": "WpfApp1.Models.Questiona3",
+            "Value": "img\\Жаба.png",
+            "Right": false
+          },
+          {
+            "Id": "WpfApp1.Models.Questiona4",
+            "Value": "img\\Аист.png",
+            "Right": true
+          }
+        ]
+      }
+    ]
+  }
+]
