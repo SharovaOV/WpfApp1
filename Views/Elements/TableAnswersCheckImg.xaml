@@ -1,0 +1,62 @@
+﻿<UserControl x:Class="WpfApp1.Views.Elements.TableAnswersCheckImg"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"                     
+             xmlns:fa="http://schemas.fontawesome.com/icons/"
+             xmlns:local="clr-namespace:WpfApp1.Views.Elements"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <GroupBox Header="Ответы" >
+
+            <DataGrid HeadersVisibility="Column" 
+                                    ItemsSource="{Binding Answers}" 
+                                    AutoGenerateColumns="False" 
+                                    IsReadOnly="True" 
+                                    SelectedItem="{Binding SelectedAnswer}"
+                                    GridLinesVisibility="Vertical"
+                                    VerticalGridLinesBrush="DarkGray"
+                                    AlternatingRowBackground="#FFD8F2FA"
+                                    Width="Auto">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Image Width="70" Height="70" Source="{Binding FullPath}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn >
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox VerticalAlignment="Center" IsChecked="{Binding Right}"  Command="{Binding RelativeSource= {RelativeSource AncestorType={x:Type  GroupBox}},  Path=DataContext.CheckedCommand}" CommandParameter="{Binding Right}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn >
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button BorderThickness="0,0,0,0" Background="{x:Null}"  Command="{Binding RelativeSource= {RelativeSource AncestorType={x:Type  GroupBox}},  Path=DataContext.EdiqAnswerCommand}" CommandParameter="{Binding}">
+                                    <fa:ImageAwesome Icon="Solid_Edit" Height="12" Margin="3 0" Foreground="#FF4EC736" Cursor="Hand"/>
+                                </Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button BorderThickness="0,0,0,0" Background="{x:Null}"  Command="{Binding RelativeSource= {RelativeSource AncestorType={x:Type  GroupBox}},  Path=DataContext.DeleteAnswerCommand}" CommandParameter="{Binding}">
+                                    <fa:ImageAwesome Icon="Solid_Times" Height="11" Margin="3 0" Foreground="#FFC75036"  Cursor="Hand" />
+                                </Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+
+            </DataGrid>
+
+
+        </GroupBox>
+    </Grid>
+</UserControl>

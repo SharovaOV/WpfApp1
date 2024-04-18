@@ -12,15 +12,16 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfApp1.ViewModels;
 
 namespace WpfApp1.Views.Pages
 {
     /// <summary>
-    /// Логика взаимодействия для Home.xaml
+    /// Логика взаимодействия для EditTest.xaml
     /// </summary>
-    public partial class Home : UserControl
+    public partial class EditTest : UserControl
     {
-        public Home()
+        public EditTest()
         {
             InitializeComponent();
         }

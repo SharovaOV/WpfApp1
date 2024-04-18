@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WpfApp1.Views.Pages
+namespace WpfApp1.Views.Elements
 {
     /// <summary>
-    /// Логика взаимодействия для Home.xaml
+    /// Логика взаимодействия для TableSolutionText.xaml
     /// </summary>
-    public partial class Home : UserControl
+    public partial class TableSolutionText : UserControl
     {
-        public Home()
+        public TableSolutionText()
         {
             InitializeComponent();
         }

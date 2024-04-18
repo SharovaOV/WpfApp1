@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace WpfApp1.Views.Pages
 {
     /// <summary>
-    /// Логика взаимодействия для Home.xaml
+    /// Логика взаимодействия для SolutionTest.xaml
     /// </summary>
-    public partial class Home : UserControl
+    public partial class SolutionTest : UserControl
     {
-        public Home()
+        public SolutionTest()
         {
             InitializeComponent();
         }

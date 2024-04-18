@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WpfApp1.Views.Pages
+namespace WpfApp1.Views.Elements
 {
     /// <summary>
-    /// Логика взаимодействия для Home.xaml
+    /// Логика взаимодействия для QuestIMG.xaml
     /// </summary>
-    public partial class Home : UserControl
+    public partial class QuestIMG : UserControl
     {
-        public Home()
+        public QuestIMG()
         {
             InitializeComponent();
         }

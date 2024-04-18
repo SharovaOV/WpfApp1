@@ -1,0 +1,16 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:vw="clr-namespace:WpfApp1.ViewModels"
+                    xmlns:view ="clr-namespace:WpfApp1.Views.Pages">
+    <DataTemplate DataType="{x:Type vw:HomeViewModel}">
+        <view:Home/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vw:EditTestViewModel}">
+        <view:EditTest/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vw:SolutionTestViewModel}">
+        <view:SolutionTest/>
+    </DataTemplate>
+    
+</ResourceDictionary>

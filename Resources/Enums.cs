@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WpfApp1.Models;
 
 namespace WpfApp1.Resources
 {
@@ -15,10 +16,10 @@ namespace WpfApp1.Resources
     {
         Text = 0,
         Image,
-        String
+        Strings
     }
 
-    public static class EnumLable
+    public static class EnumView
     {
         static string[] _TypeQuest = { "Выбор варианта", "Вписать ответ" };
         public static string[] TypeQuest { get => _TypeQuest; }
@@ -27,11 +28,22 @@ namespace WpfApp1.Resources
             return TypeQuest[(int)typeQuest];
         }
 
-        static string[] _TypeAnswer = { " Текстовое представление ", "Представление изображением", "Набор правильного написанных ответов" };
+        static string[] _TypeAnswer = { "Текстовое представление ", "Представление изображением", "Набор правильного написанных ответов" };
         public static string[] TypeAnswer { get => _TypeAnswer; }
         public static string GetTypeAnswer(TypeAnswer typeAnswer)
         {
             return TypeAnswer[(int)typeAnswer];
+        }
+
+        public static List<EnumLabel>EnumLabels(string[] labels, int check)
+        {
+            List<EnumLabel> enumLabels = new();
+            for(int i=0; i< labels.Length; i++)
+            {
+                enumLabels.Add(new(i, labels[i], check == i));
+            }
+
+            return enumLabels;
         }
 
         
