@@ -17,6 +17,17 @@ namespace WpfApp1.ViewModels
            new PropertyMetadata(null));
         public string NameTest { get; set; }
 
+
+        #region Title : string - Заголовок окна
+        private string _Title;
+        /// <summary>Заголовок окна</summary>
+        public string Title
+        {
+            get => _Title;
+            set => Set(ref _Title, value);
+        }
+        #endregion
+
         public CreateTestViewModel() { }
     }
 }

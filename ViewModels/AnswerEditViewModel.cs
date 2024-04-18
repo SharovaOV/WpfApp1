@@ -36,6 +36,15 @@ namespace WpfApp1.ViewModels
         public UserControl CurrentView { get; set; }
         #endregion
 
+        #region Title : string - Заголовок окна
+        private string _Title;
+        /// <summary>Заголовок окна</summary>
+        public string Title
+        {
+            get => _Title;
+            set => Set(ref _Title, value);
+        }
+        #endregion
         #region Команды
         #region LoadImageCommand
         private ICommand _LoadImageCommand;

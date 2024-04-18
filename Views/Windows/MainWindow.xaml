@@ -23,17 +23,16 @@
                     <MenuItem Header="Загрузить базу тестов"></MenuItem>
                     <MenuItem Header="Создать базу тестов"></MenuItem>
                 </MenuItem>
-                <MenuItem Header="Добавить тест" Command="{Binding CreateTestCommand}"></MenuItem>
-                <MenuItem Header="Пройти Тест" Command="{Binding CloseApplicationCommand}"></MenuItem>
+                <MenuItem Header="Главная" Command="{Binding GoHomeCommand}"/>
+                <MenuItem Header="Добавить тест" Command="{Binding CreateTestCommand}"/>
+                <MenuItem Header="Пройти Тест" Command="{Binding StartSolutionCommand}"/>
             </Menu>
             <StatusBar DockPanel.Dock="Bottom">
                 <TextBlock Text="Загружено тестов:"></TextBlock>
                 <TextBlock Text="{Binding TestInfo.Count}"></TextBlock>
-            </StatusBar>
-            
+            </StatusBar>            
                     <Grid>
-                            <ContentControl x:Name="Page" Content="{Binding CurrentView}"/>
-                      
+                            <ContentControl x:Name="Page" Content="{Binding CurrentView}"/>                      
                     </Grid>
                 
         </DockPanel>

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace WpfApp1.Models
 {
@@ -14,6 +15,19 @@ namespace WpfApp1.Models
         {
             Id = "" + (++_LastId);
             Questions = new();
+        }
+    }
+    public class UserTest
+    {
+
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public List<UserQuestion> Questions { get; set; }
+        public int RightCount { get => Questions.Count(x => x.IsRight == true); }
+        public UserTest(Test test){
+            Id = test.Id;
+            Name = test.Name;
+            Questions = test.Questions.Select((x, index) => new UserQuestion(x, index)).ToList(); 
         }
     }
 }

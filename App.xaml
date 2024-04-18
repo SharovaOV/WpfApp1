@@ -9,6 +9,13 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Resources/Templates/DataTemplate.xaml"/>
+                <ResourceDictionary>
+                    <Style x:Key="IsReadOnly">
+                        <Style.Resources>
+                            <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
+                        </Style.Resources>
+                    </Style>
+                </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
             <vm:ViewModelLocator x:Key="Locator"/>
         </ResourceDictionary>

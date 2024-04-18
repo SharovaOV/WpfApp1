@@ -32,6 +32,7 @@ namespace WpfApp1.ViewModels
            new PropertyMetadata(null));
         public TypeAnswer AnswerType { get; set; }
 
+
         public static DependencyProperty TitleProperty = DependencyProperty.Register(
            nameof(Title),
            typeof(string),
@@ -67,7 +68,7 @@ namespace WpfApp1.ViewModels
         public QuestionEditViewModel()
         {
             SetTypeAnswersCommand = new RelayCommand(OnSetTypeAnswersCommandExecuted, CanSetTypeAnswersCommandExecute);
-            TypeAnswers = EnumView.EnumLabels(EnumView.TypeAnswer, (int)AnswerType);
+            
 
         }
     }

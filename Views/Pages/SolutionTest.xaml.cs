@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WpfApp1.Views.Elements
+namespace WpfApp1.Views.Pages
 {
     /// <summary>
-    /// Логика взаимодействия для ItemAnswerText.xaml
+    /// Логика взаимодействия для SolutionTest.xaml
     /// </summary>
-    public partial class ItemAnswerText : UserControl
+    public partial class SolutionTest : UserControl
     {
-        public ItemAnswerText()
+        public SolutionTest()
         {
             InitializeComponent();
         }

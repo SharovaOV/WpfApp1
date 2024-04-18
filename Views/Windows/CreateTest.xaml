@@ -6,7 +6,7 @@
         xmlns:cmd="clr-namespace:WpfApp1.Infrastucture"
         xmlns:local="clr-namespace:WpfApp1.Views.Windows"
         mc:Ignorable="d"
-        Title="Окно создания теста" Height="250" Width="500" ResizeMode="NoResize">
+        Title="{Binding Title}" Height="250" Width="500" ResizeMode="NoResize">
     <Grid>
         <DockPanel>
             <StackPanel DockPanel.Dock="Top">

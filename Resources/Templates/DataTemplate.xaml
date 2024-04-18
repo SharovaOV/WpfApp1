@@ -9,5 +9,8 @@
     <DataTemplate DataType="{x:Type vw:EditTestViewModel}">
         <view:EditTest/>
     </DataTemplate>
+    <DataTemplate DataType="{x:Type vw:SolutionTestViewModel}">
+        <view:SolutionTest/>
+    </DataTemplate>
     
 </ResourceDictionary>

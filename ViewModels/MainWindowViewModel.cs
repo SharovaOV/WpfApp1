@@ -18,12 +18,6 @@ namespace WpfApp1.ViewModels
    
     internal class MainWindowViewModel : ViewModelBase
     {
-        enum TabWindow
-        {
-            Start=0,
-            EditTest,
-            DoTest
-        }
         private readonly IUserDialogService _UserDialog;
 
         #region Title : string - Заголовок окна
@@ -92,7 +86,7 @@ namespace WpfApp1.ViewModels
         #region CreateTestCommand
         /// <summary> Событие добавить тест </summary>
         public ICommand CreateTestCommand { get; }
-        private bool CanCreateTestCommandExecuted(object t)=>true;
+        private bool CanCreateTestCommandExecuted(object t) => CurrentView is not SolutionTestViewModel;
         private void OnCreateTestCommandExecuted(object t)
         {
             bool needToAdd =false;
@@ -104,12 +98,12 @@ namespace WpfApp1.ViewModels
             var test = (Test)t;
             if (_UserDialog.Edit(test) == false && string.IsNullOrWhiteSpace(test.Name))
             {
-                _UserDialog.Confirm("Невозможно создать тест без заголовка!", "Создание теста отменено!");
+                _UserDialog.ShowInformation("Невозможно создать тест без заголовка!", "Создание теста отменено!");
                 return;
             }
             else if (string.IsNullOrWhiteSpace(test.Name))
             {
-                _UserDialog.Confirm("Невозможно задать пустой заголовок!", "Редактирование теста отменено!");
+                _UserDialog.ShowInformation("Невозможно задать пустой заголовок!", "Редактирование теста отменено!");
                 return;
             }
 
@@ -119,6 +113,30 @@ namespace WpfApp1.ViewModels
         }
         #endregion
 
+        #region StartSolutionCommand
+        /// <summary> Событие пройти тест </summary>
+        public ICommand StartSolutionCommand { get; }
+        private bool CanStartSolutionCommandExecute(object t) => CurrentView is HomeViewModel;
+        private void OnStartSolutionCommandExecuted(object t)
+        {
+            CurrentView = new SolutionTestViewModel(((HomeViewModel)CurrentView).SelectedTest.Id, _UserDialog);
+        }
+        #endregion
+
+        #region GoHomeCommand
+        /// <summary> Событие пройти тест </summary>
+        public ICommand GoHomeCommand { get; }
+        private bool CanGoHomeCommandExecute(object t) => CurrentView is not HomeViewModel;
+        private void OnGoHomeCommandExecuted(object t)
+        {
+            if(CurrentView is SolutionTestViewModel)
+            {
+                if(_UserDialog.Confirm("Это Действие приведет к потере прогресса!\n Вы действительно хотите прервать выполнение теста? ", "Экстренный выход из теста!", true) == false)
+                    return;
+            }
+            CurrentView = new HomeViewModel(CreateTestCommand, _UserDialog);
+        }
+        #endregion
         #endregion
 
 
@@ -128,15 +146,11 @@ namespace WpfApp1.ViewModels
             JSON.SetJsonPath();
             #region Команды
             CloseApplicationCommand = new RelayCommand(OnCloseApplicationCommandExecuted, CanCloseApplicationCommandExecuted);
-
-            //DeleteTestCommand = new RelayCommand(OnDeleteTestCommandExecuted, CanDeleteTestCommandExecuted);
-
             CreateTestCommand = new RelayCommand(OnCreateTestCommandExecuted, CanCreateTestCommandExecuted);
+            StartSolutionCommand = new RelayCommand(OnStartSolutionCommandExecuted, CanStartSolutionCommandExecute);
+            GoHomeCommand = new RelayCommand(OnGoHomeCommandExecuted, CanGoHomeCommandExecute);
             #endregion
             CurrentView = new HomeViewModel(CreateTestCommand, _UserDialog);
-
-            //TestInfo = new ObservableCollection<Test>(JSON.LoadTestInfoList());           
-
         }
 
     }

@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace WpfApp1.Views.Elements
 {
     /// <summary>
-    /// Логика взаимодействия для ItemAnswerText.xaml
+    /// Логика взаимодействия для TableSolutionImg.xaml
     /// </summary>
-    public partial class ItemAnswerText : UserControl
+    public partial class TableSolutionImg : UserControl
     {
-        public ItemAnswerText()
+        public TableSolutionImg()
         {
             InitializeComponent();
         }

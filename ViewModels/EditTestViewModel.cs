@@ -12,11 +12,15 @@ using WpfApp1.Infrastucture;
 using WpfApp1.Resources;
 using WpfApp1.Views.Windows;
 using System.Windows;
+using System.Windows.Controls;
+using WpfApp1.Views.Elements;
 
 namespace WpfApp1.ViewModels
 {
     class EditTestViewModel : ViewModelBase
     {
+        string _TestId { get; set; }
+        Test _Test { get; set; }
         #region Поля
         private readonly IUserDialogService _UserDialog;
 
@@ -30,10 +34,10 @@ namespace WpfApp1.ViewModels
         }
         #endregion
 
-        #region CurrentTypeView : ViewModelBase - Вид представления ответа
-        private ViewModelBase _CurrentTypeView;
+        #region CurrentTypeView : UserControl - Вид представления ответа
+        private UserControl _CurrentTypeView;
         /// <summary>Вид представления ответа</summary>
-        public ViewModelBase CurrentTypeView
+        public UserControl CurrentTypeView
         {
             get => _CurrentTypeView;
             set => Set(ref _CurrentTypeView, value);
@@ -48,11 +52,22 @@ namespace WpfApp1.ViewModels
             get => _SelectedQuestion;
             set{ 
                 Set(ref _SelectedQuestion, value);
-                if(_SelectedQuestion != null)
-                    Answers = new(value.Answers); 
+                if (_SelectedQuestion != null)
+                {                    
+                    Answers = new(value.Answers);
+                    CurrentTypeView = _SelectedQuestion.TypeAnswer switch
+                    {
+                        TypeAnswer.Text => new TableAnswersCheckText { DataContext = this },
+                        TypeAnswer.Image => new TableAnswersCheckImg { DataContext = this },
+                        TypeAnswer.Strings => new TableAnswersCheckStrings { DataContext = this },
+                        _ => new TableAnswersCheckText { DataContext = this },
+                    };
+                }
             }
         }
         #endregion
+
+        
 
         #region Answers : ObservableCollection<Answer> - Ответы
         private ObservableCollection<Answer> _Answers;
@@ -73,8 +88,6 @@ namespace WpfApp1.ViewModels
             set => Set(ref _SelectedAnswer, value);
         }
         #endregion
-
-
         #endregion
 
 
@@ -89,6 +102,7 @@ namespace WpfApp1.ViewModels
         {
             if (t is not Question question) return;
             Questions.Remove(question);
+            UpdateTest();
         }
         #endregion
 
@@ -101,6 +115,8 @@ namespace WpfApp1.ViewModels
         {
             if (t is not Answer answer) return;
             Answers.Remove(answer);
+            SelectedQestion.Answers = Answers.ToList();
+            UpdateTest();
         }
         #endregion
 
@@ -113,7 +129,7 @@ namespace WpfApp1.ViewModels
             Question question = (Question)p;
             TypeAnswer typeanswer = question.TypeAnswer;
 
-            if(_UserDialog.Edit(question))
+            if(_UserDialog.Edit(question)&& !string.IsNullOrWhiteSpace(question.Value))
             {
                 if(typeanswer != question.TypeAnswer)
                 {
@@ -121,6 +137,7 @@ namespace WpfApp1.ViewModels
                     Answers = new();
                     SelectedQestion = question;
                 }
+                UpdateTest();
             }
         }
         #endregion
@@ -130,12 +147,12 @@ namespace WpfApp1.ViewModels
         private static bool CanEdiqAnswerCommandExecute(object p) => p is Answer;
         private void OnEdiqAnswerCommandExrcuted(object p)
         {
-            if (_UserDialog.Edit(p, type: (int)SelectedQestion.TypeAnswer))
+            if (_UserDialog.Edit(p, type: (int)SelectedQestion.TypeAnswer) && !string.IsNullOrEmpty(((Answer)p).Value))
             {
-
                 Answers = Answers;
                 SelectedAnswer = (Answer)p;
             }
+            UpdateTest();
         }
         #endregion
 
@@ -146,10 +163,17 @@ namespace WpfApp1.ViewModels
         {
             Question question = new();
             
-            if (_UserDialog.Edit(question))
+            if (_UserDialog.Edit(question) && !string.IsNullOrWhiteSpace(question.Value))
             {
+                int LastId = 0;
+                if(Questions.Count >0)
+                {
+                    LastId = Convert.ToInt32( Questions.Last().Id.Split(".").Last());
+                }
+                question.Id = _TestId + "." + (++LastId);
                 Questions.Add(question);
                 SelectedQestion = question;
+                UpdateTest();
             }
         }
         #endregion
@@ -160,12 +184,31 @@ namespace WpfApp1.ViewModels
         {
             Answer answer = new();
 
-            if (_UserDialog.Edit(answer,type: (int)SelectedQestion.TypeAnswer))
+            if (_UserDialog.Edit(answer,type: (int)SelectedQestion.TypeAnswer) && !string.IsNullOrWhiteSpace(answer.Value) )
             {
+                int LastId = 0;
+                if (Answers.Count > 0)
+                {
+                    LastId = Convert.ToInt32(Answers.Last().Id.Split("a").Last());
+                }
+                answer.Right = SelectedQestion.TypeAnswer == TypeAnswer.Strings || Answers.Count == 0;
+                    
+                answer.Id = SelectedQestion + "a" + (++LastId);
                 SelectedQestion.Answers.Add(answer);
                 Answers = new(SelectedQestion.Answers);
                 SelectedAnswer = answer;
+                JSON.UpdateTest(_Test);
             }
+        }
+        #endregion
+
+        #region CheckedCommand
+        public ICommand CheckedCommand { get; }
+        private bool CanCheckedCommandExecute(object check)=>true;
+        private void OnCheckedCommandExrcuted(object check)
+        {            
+            SelectedAnswer.Right = (bool)check == true ? false : true;
+            JSON.UpdateTest(_Test);
         }
         #endregion
         #endregion
@@ -173,16 +216,44 @@ namespace WpfApp1.ViewModels
         {
             _UserDialog = userDialog;
             #region Команды
+            _TestId = testId;
+            CurrentTypeView = new TableAnswersCheckText(){DataContext=this};
             CreateQuestionCommand = new RelayCommand(OnCreateQuestionCommandExrcuted, CanCreateQuestionCommandExecute);
             CreateAnswerCommand = new RelayCommand(OnCreateAnswerCommandExrcuted, CanCreateAnswerCommandExecute);
             DeleteQuestionCommand = new RelayCommand(OnDeleteQuestionCommandExecuted, CanDeleteQuestionCommandExecute);
             DeleteAnswerCommand = new RelayCommand(OnDeleteAnswerCommandExecuted, CanDeleteAnswerCommandExecute);
+            CheckedCommand = new RelayCommand(OnCheckedCommandExrcuted, CanCheckedCommandExecute);
             #endregion
-            Test test = JSON.LoadTest(testId);
-            Questions = (test.CountQuestions == 0)? new(): new(JSON.LoadTest(testId).Questions);
-            SelectedQestion = Questions.Count == 0 ? null : Questions.First();
-            Answers = (SelectedQestion == null)? new() : new(SelectedQestion.Answers);
-            SelectedAnswer = Answers.Count == 0 ? null : Answers.First();
+            _Test = JSON.LoadTest(_TestId);
+            ReloadQuestions();
         }
+         private void UpdateTest()
+        {
+            _Test.Questions = Questions.ToList();
+            JSON.UpdateTest(_Test);
+            ReloadQuestions();
+        }
+
+        private void ReloadQuestions()
+        {
+            int index = (SelectedQestion != null) ? Questions.IndexOf(SelectedQestion) : - 1;
+            Questions = (_Test.Questions.Count == 0) ? new() : new(_Test.Questions);
+            SelectedQestion = null;
+            SelectedQestion = Questions.Count == 0 ? null
+                : (index == -1) ? Questions.First()
+                : Questions[index];
+
+            ReloaderAnswers();
+        }
+
+        private void ReloaderAnswers()
+        {
+            int index = (SelectedAnswer != null) ? Answers.IndexOf(SelectedAnswer) : -1;
+            Answers = (SelectedQestion == null) ? new() : new(SelectedQestion.Answers);
+            SelectedAnswer = Answers.Count == 0 ? null
+                : (index == -1) ? Answers.First()
+                : Answers[index];
+        }
+
     }
 }

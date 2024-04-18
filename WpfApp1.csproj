@@ -9,6 +9,11 @@
   <ItemGroup>
     <Compile Remove="ViewModels\QuestIMGViewModel.cs" />
     <Compile Remove="ViewModels\QuestTextViewModel.cs" />
+    <Compile Remove="Views\Elements\ItemAnswerText.xaml.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Remove="Views\Elements\ItemAnswerText.xaml" />
   </ItemGroup>
 
   <ItemGroup>

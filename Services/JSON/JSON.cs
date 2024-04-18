@@ -29,10 +29,6 @@ namespace WpfApp1.Services.JSON
         public static void SaveDB(List<Test> tests)
         {
             string jsonDb = JsonSerializer.Serialize(tests, options);
-            /*using (StreamWriter writer = new StreamWriter(JsonPath, false))
-            {
-                await writer.WriteLineAsync(jsonDb);
-            }*/
             File.WriteAllText(JsonPath, jsonDb, Encoding.UTF8);
         }
 
@@ -107,6 +103,19 @@ namespace WpfApp1.Services.JSON
             SaveDB(tests);
 
             return tests.Short();
+        }
+        public static void UpdateTest(Test test)
+        {
+            List<Test> tests = new(LoadFullTestList());
+
+            for(int i=0;i<tests.Count; i++)
+            {
+                if (tests[i].Id == test.Id)
+                {
+                    tests[i] = test;
+                }
+            }
+            SaveDB(tests);
         }
 
     }

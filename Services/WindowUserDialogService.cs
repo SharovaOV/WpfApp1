@@ -53,8 +53,9 @@ namespace WpfApp1.Services
             {
                 ValueQuest = question.Value,
                 AnswerType = question.TypeAnswer,
-                Title = "Окно редактирования вопроса"
-            };
+                Title = string.IsNullOrEmpty(title) ? "Окно редактирования вопроса" : title,
+                TypeAnswers = EnumView.EnumLabels(EnumView.TypeAnswer, (int)question.TypeAnswer)
+        };
             var dlg = new QuestionEdit
             {
                 DataContext = dataContext
@@ -70,7 +71,8 @@ namespace WpfApp1.Services
         {
             var dataContext = new CreateTestViewModel
             {
-                NameTest = test.Name
+                NameTest = test.Name,                
+                Title = string.IsNullOrEmpty(title) ? "Окно редактирования теста" : title,
             };
             var dlg = new CreateTest
             {
@@ -84,11 +86,11 @@ namespace WpfApp1.Services
         }
         private static bool EditAnswer(Answer answer, string title = "", int type=-1)
         {
-            var tp = (int)TypeAnswer.Image;
             var dataContext = new AnswerEditViewModel
             {
                 ValueAnswer = answer.Value,
-                CurrentView = (type==(int)TypeAnswer.Image) ? new QuestIMG() : new QuestText()
+                CurrentView = (type==(int)TypeAnswer.Image) ? new QuestIMG() : new QuestText(),
+                Title = string.IsNullOrEmpty(title) ? "Окно редактирования теста" : title,
             };
             var dlg = new AnswerEdit
             {
