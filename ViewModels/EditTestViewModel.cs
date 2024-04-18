@@ -137,7 +137,7 @@ namespace WpfApp1.ViewModels
             Question question = (Question)p;
             TypeAnswer typeanswer = question.TypeAnswer;
 
-            if(_UserDialog.Edit(question)&& !string.IsNullOrWhiteSpace(question.Value))
+            if(_UserDialog.Edit(question,"Окно редактирования вопроса")&& !string.IsNullOrWhiteSpace(question.Value))
             {
                 if(typeanswer != question.TypeAnswer)
                 {
@@ -155,7 +155,7 @@ namespace WpfApp1.ViewModels
         private static bool CanEdiqAnswerCommandExecute(object p) => p is Answer;
         private void OnEdiqAnswerCommandExrcuted(object p)
         {
-            if (_UserDialog.Edit(p, type: (int)SelectedQestion.TypeAnswer) && !string.IsNullOrEmpty(((Answer)p).Value))
+            if (_UserDialog.Edit(p, "Окно редактирования ответа", type: (int)SelectedQestion.TypeAnswer) && !string.IsNullOrEmpty(((Answer)p).Value))
             {
                 Answers = Answers;
                 SelectedAnswer = (Answer)p;
@@ -171,7 +171,7 @@ namespace WpfApp1.ViewModels
         {
             Question question = new();
             
-            if (_UserDialog.Edit(question) && !string.IsNullOrWhiteSpace(question.Value))
+            if (_UserDialog.Edit(question, "Окно создания вопроса") && !string.IsNullOrWhiteSpace(question.Value))
             {
                 int LastId = 0;
                 if(Questions.Count >0)
@@ -192,7 +192,7 @@ namespace WpfApp1.ViewModels
         {
             Answer answer = new();
 
-            if (_UserDialog.Edit(answer,type: (int)SelectedQestion.TypeAnswer) && !string.IsNullOrWhiteSpace(answer.Value) )
+            if (_UserDialog.Edit(answer, "Окно создания ответа", type: (int)SelectedQestion.TypeAnswer) && !string.IsNullOrWhiteSpace(answer.Value) )
             {
                 int LastId = 0;
                 if (Answers.Count > 0)

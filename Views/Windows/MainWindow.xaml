@@ -26,7 +26,7 @@
                 <MenuItem Header="Пройти Тест" Command="{Binding StartSolutionCommand}"/>
             </Menu>
             <StatusBar DockPanel.Dock="Bottom">
-                <TextBlock Text="{Binding footerString}"></TextBlock>
+                <TextBlock Text="{Binding FooterString}"></TextBlock>
             </StatusBar>            
                     <Grid>
                             <ContentControl x:Name="Page" Content="{Binding CurrentView}"/>                      

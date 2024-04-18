@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using WpfApp1.Resources;
 using System.Text.Json;
 using System.Linq;
-using Params = WpfApp1.Properties.Settings;
 
 
 namespace WpfApp1.Models

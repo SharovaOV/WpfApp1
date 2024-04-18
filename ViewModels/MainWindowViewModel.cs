@@ -11,7 +11,6 @@ using System.Collections.ObjectModel;
 using WpfApp1.Resources;
 using WpfApp1.Services.JSON;
 using WpfApp1.Services;
-using System.IO;
 using Microsoft.Win32;
 using Params = WpfApp1.Properties.Settings;
 
@@ -22,13 +21,23 @@ namespace WpfApp1.ViewModels
     {
         private readonly IUserDialogService _UserDialog;
 
+
         #region Title : string - Заголовок окна
-        private string _Tiile = "Заголовок окна";
+        private string _Tiile = "Менеджер тестов";
         /// <summary>Заголовок окна</summary>
         public string Title
         {
             get => _Tiile;
             set => Set(ref _Tiile, value);
+        }
+        #endregion
+        #region FooterString : string - Надпись внизу окна
+        private string _FooterString = "Список тестов";
+        /// <summary>Надпись внизу окна</summary>
+        public string FooterString
+        {
+            get => _FooterString;
+            set => Set(ref _FooterString, value);
         }
         #endregion
 
@@ -41,6 +50,8 @@ namespace WpfApp1.ViewModels
             set => Set(ref _Tests, value);
         }
         #endregion
+
+
 
         #region SelectedTest : Test - Выделенный тест
         private Test _SelectedTest;
@@ -68,7 +79,23 @@ namespace WpfApp1.ViewModels
         public ViewModelBase CurrentView
         {
             get => _CurrentView;
-            set => Set(ref _CurrentView, value);
+            set
+            {
+                Set(ref _CurrentView, value);
+
+                switch (_CurrentView)
+                {
+                    case SolutionTestViewModel:
+                        FooterString = "Прохождение теста";
+                        break;
+                    case EditTestViewModel:
+                        FooterString = "Редактирование содеожимого теста";
+                        break;
+                    default:
+                        FooterString = "Список достурых тестов";
+                        break;
+                }
+            }
         }
         #endregion
 
@@ -98,7 +125,7 @@ namespace WpfApp1.ViewModels
                 needToAdd = true;
             }
             var test = (Test)t;
-            if (_UserDialog.Edit(test) == false && string.IsNullOrWhiteSpace(test.Name))
+            if (_UserDialog.Edit(test, "Окно редактирования заголовка теста") == false && string.IsNullOrWhiteSpace(test.Name))
             {
                 _UserDialog.ShowInformation("Невозможно создать тест без заголовка!", "Создание теста отменено!");
                 return;
